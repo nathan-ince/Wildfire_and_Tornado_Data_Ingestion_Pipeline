@@ -8,7 +8,7 @@ from project.models import Config
 
 logger = logging.getLogger(__name__)
 
-class LoadConfigFromFileError(AbstractError): pass
+class LoadConfigFromYamlError(AbstractError): pass
 
 def load_config_from_yaml(path: str) -> Config:
   """
@@ -26,21 +26,31 @@ def load_config_from_yaml(path: str) -> Config:
 
   ### **Throws**
 
-  `LoadConfigFromFileError`
+  `LoadConfigFromYamlError`
   """
-  logger.info("loading config from yaml")
+  logger.info("loading config from yaml", extra={"path": path})
   try:
     with open(path, mode="r") as file:
       content = yaml.safe_load(file)
       result = Config(**content)
-      logger.info("successfully loaded config from yaml")
+      logger.info("successfully loaded config from yaml", extra={"path": path})
       return result
   except ValidationError as e:
-    logger.error("failed to load config from yaml :: path = %s :: error_name = %s :: error_count = %d", path, type(e).__name__, e.error_count())
-    raise LoadConfigFromFileError(message="failed to load config from yaml", path=path, error_name=type(e).__name__, error_count=e.error_count()) from e
+    error = LoadConfigFromYamlError("failed to load config from YAML", "pydantic validation error")
+    logger.error(error.message, extra={
+      "path": path,
+      "error_count": e.error_count(),
+      "error_messages": e.errors()
+    })
+    raise error from e
   except Exception as e:
-    logger.error("failed to load config from yaml :: path = %s", path)
-    raise LoadConfigFromFileError(message="failed to load config from yaml", path=path) from e
+    error = LoadConfigFromYamlError("failed to load config from YAML", "unknown exception")
+    logger.error(error.message, extra={
+      "path": path,
+      "error_class": type(e).__name__,
+      "error_args": e.args
+    })
+    raise error from e
   return
 
-__all__ = ["load_config_from_yaml", "LoadConfigFromFileError"]
+__all__ = ["load_config_from_yaml", "LoadConfigFromYamlError"]

@@ -2,7 +2,6 @@ from pydantic import BaseModel
 from ._abstract_enums import AbstractStringEnum
 
 class Config(BaseModel):
-  path: str | None = None
   accepted: str
   rejected: str
   sources: list[Source]
