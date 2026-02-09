@@ -6,7 +6,7 @@ from sqlalchemy import text
 ################################################################################################
 
 from project.core import dbengine
-from project.errors import AbstractError
+from project.errors.abstract import AbstractError
 from project.types import InitializePipelineAction, PipelineStatus
 
 ################################################################################################

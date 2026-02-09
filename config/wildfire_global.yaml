@@ -1,16 +1,91 @@
-accepted: "wildfire_global"
-rejected: "wildfire_global_rejects"
-sources:
-  - path: "data/wildfire_global.json"
-    format: "json"
-    columns:
-      Country: "country"
-      Year: "year"
-      Month: "month"
-      Region: "region"
-      Cause: "cause"
-      Fires_Count: "recorded_fires_count"
-      Burned_Area_Ha: "burned_area_hectares"
-      Temperature_C: "temperature_celsius"
-      Humidity_Percent: "humidity_percent"
-      Wind_Speed_kmh: "wind_speed_kmh"
+internal:
+  tables:
+    accepted: wildfire_global
+    rejected: wildfire_global_rejects
+  fields:
+    - name: country
+      ptype: text
+      nullable: false
+      unique: false
+      dtype: string[pyarrow]
+    - name: year
+      ptype: smallint
+      nullable: false
+      unique: false
+      dtype: int16[pyarrow]
+    - name: month
+      ptype: text
+      nullable: false
+      unique: false
+      dtype: string[pyarrow]
+    - name: region
+      ptype: text
+      nullable: false
+      unique: false
+      dtype: string[pyarrow]
+    - name: fires_count
+      ptype: smallint
+      nullable: false
+      unique: false
+      dtype: int16[pyarrow]
+    - name: burned_area_hectares
+      ptype: integer
+      nullable: false
+      unique: false
+      dtype: int16[pyarrow]
+    - name: cause
+      ptype: text
+      nullable: false
+      unique: false
+      dtype: string[pyarrow]
+    - name: temperature_celsius
+      ptype: smallint
+      nullable: false
+      unique: false
+      dtype: int8[pyarrow]
+    - name: humidity_percent
+      ptype: smallint
+      nullable: false
+      unique: false
+      dtype: int8[pyarrow]
+    - name: wind_speed_kmh
+      ptype: smallint
+      nullable: false
+      unique: false
+      dtype: int8[pyarrow]
+external:
+  sources:
+    - path: data/wildfire_global.csv
+      format: csv
+      fields:
+      - name: Country
+        dtype: string[pyarrow]
+      - name: Year
+        dtype: int16[pyarrow]
+      - name: Month
+        dtype: string[pyarrow]
+      - name: Region
+        dtype: string[pyarrow]
+      - name: Fires_Count
+        dtype: int16[pyarrow]
+      - name: Burned_Area_Hectares
+        dtype: int16[pyarrow]
+      - name: Cause
+        dtype: string[pyarrow]
+      - name: Temperature_C
+        dtype: int8[pyarrow]
+      - name: Humidity_Percent
+        dtype: int8[pyarrow]
+      - name: Wind_Speed_kmh
+        dtype: int8[pyarrow]
+      field_name_map:
+        Country: country
+        Year: year
+        Month: month
+        Region: region
+        Fires_Count: fires_count
+        Burned_Area_HA: burned_area_hectares
+        Cause: cause
+        Temperature_C: temperature_celsius
+        Humidity_Percent: humidity_percent
+        Wind_Speed_kmh: wind_speed_kmh

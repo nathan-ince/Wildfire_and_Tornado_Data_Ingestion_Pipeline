@@ -6,89 +6,102 @@ internal:
     - name: year
       ptype: smallint
       dtype: int16[pyarrow]
+      nullable: false
+      unique: false
     - name: month
       ptype: smallint
       dtype: int8[pyarrow] # this works because month will range from 1-12
+      nullable: false
+      unique: false
     - name: day
       ptype: smallint
       dtype: int8[pyarrow] # this works because day will range from 0-31
+      nullable: false
+      unique: false
     - name: date
       ptype: date
       dtype: date32[pyarrow]
+      nullable: false
+      unique: false
     - name: state
       ptype: text
       dtype: string[pyarrow]
+      nullable: false
+      unique: false
     - name: magnitude
       ptype: integer
       dtype: int8[pyarrow]
+      nullable: false
+      unique: false
     - name: injury_count
       ptype: integer
       dtype: int16[pyarrow]
+      nullable: false
+      unique: false
     - name: fatality_count
       ptype: integer
       dtype: int16[pyarrow]
+      nullable: false
+      unique: false
     - name: latitude_start
       ptype: real
       dtype: float32[pyarrow]
+      nullable: false
+      unique: false
     - name: latitude_end
       ptype: real
       dtype: float32[pyarrow]
+      nullable: false
+      unique: false
     - name: longitude_start
       ptype: real
       dtype: float32[pyarrow]
+      nullable: false
+      unique: false
     - name: longitude_end
       ptype: real
       dtype: float32[pyarrow]
+      nullable: false
+      unique: false
     - name: length_miles
       ptype: real
       dtype: float32[pyarrow]
+      nullable: false
+      unique: false
     - name: width_yards
       ptype: smallint
       dtype: int16[pyarrow]
+      nullable: false
+      unique: false
 sources:
   - path: data/tornado_usa.csv
     format: csv
     fields:
-      - name: yr
-        dtype: int16[pyarrow]
-      - name: mo
-        dtype: int8[pyarrow]
-      - name: dy
-        dtype: int8[pyarrow]
-      - name: date
-        dtype: date32[pyarrow]
-      - name: st
-        dtype: string[pyarrow]
-      - name: mag
-        dtype: int8[pyarrow]
-      - name: inj
-        dtype: int16[pyarrow]
-      - name: fat
-        dtype: int16[pyarrow]
-      - name: slat
-        dtype: float32[pyarrow]
-      - name: slon
-        dtype: float32[pyarrow]
-      - name: elat
-        dtype: float32[pyarrow]
-      - name: elon
-        dtype: float32[pyarrow]
-      - name: len
-        dtype: float32[pyarrow]
-      - name: wid
-        dtype: int16[pyarrow]
-    field_name_map:
-      yr: year
-      dy: day
-      mo: month
-      date: date
-      st: state
-      mag: magnitude
-      inj: injury_count
-      fat: fatality_count
-      slat: latitude_start
-      slon: longitude_start
-      elat: latitude_end
-      elon: longitude_end
-      len: length
-      wid: width
+      - source_name: yr
+        target_name: year
+      - source_name: mo
+        target_name: month
+      - source_name: dy
+        target_name: day
+      - source_name: date
+        target_name: date
+      - source_name: st
+        target_name: state
+      - source_name: mag
+        target_name: magnitude
+      - source_name: inj
+        target_name: injury_count
+      - source_name: fat
+        target_name: fatality_count
+      - source_name: slat
+        target_name: latitude_start
+      - source_name: slon
+        target_name: longitude_start
+      - source_name: elat
+        target_name: latitude_end
+      - source_name: elon
+        target_name: longitude_end
+      - source_name: len
+        target_name: length_miles
+      - source_name: wid
+        target_name: width_yards

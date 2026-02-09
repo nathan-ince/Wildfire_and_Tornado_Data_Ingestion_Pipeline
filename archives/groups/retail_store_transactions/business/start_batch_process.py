@@ -8,7 +8,7 @@ from uuid import UUID, uuid4
 
 ################################################################################################
 
-from project.errors import AbstractError
+from project.errors.abstract import AbstractError
 
 from project.models import PipelineConfigurationSettings as Config
 

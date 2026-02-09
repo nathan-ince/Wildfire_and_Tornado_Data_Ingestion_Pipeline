@@ -6,7 +6,7 @@ from pandas import DataFrame
 
 ################################################################################################
 
-from project.errors import AbstractError
+from project.errors.abstract import AbstractError
 from project.models import PipelineConfigurationSettings as Config
 
 from ..constants import CONFIG_FILE_PATH
