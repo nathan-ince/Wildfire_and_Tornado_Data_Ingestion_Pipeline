@@ -73,35 +73,50 @@ internal:
       dtype: int16[pyarrow]
       nullable: false
       unique: false
-sources:
-  - path: data/tornado_usa.csv
-    format: csv
-    fields:
-      - source_name: yr
-        target_name: year
-      - source_name: mo
-        target_name: month
-      - source_name: dy
-        target_name: day
-      - source_name: date
-        target_name: date
-      - source_name: st
-        target_name: state
-      - source_name: mag
-        target_name: magnitude
-      - source_name: inj
-        target_name: injury_count
-      - source_name: fat
-        target_name: fatality_count
-      - source_name: slat
-        target_name: latitude_start
-      - source_name: slon
-        target_name: longitude_start
-      - source_name: elat
-        target_name: latitude_end
-      - source_name: elon
-        target_name: longitude_end
-      - source_name: len
-        target_name: length_miles
-      - source_name: wid
-        target_name: width_yards
+external:
+  sources:
+    - path: data/tornado_usa.csv
+      format: csv
+      fields:
+        - source_name: yr
+          source_dtype: "int16[pyarrow]"
+          target_name: year
+        - source_name: mo
+          source_dtype: "int8[pyarrow]"
+          target_name: month
+        - source_name: dy
+          source_dtype: "int8[pyarrow]"
+          target_name: day
+        - source_name: date
+          source_dtype: "date32[pyarrow]"
+          target_name: date
+        - source_name: st
+          source_dtype: "string[pyarrow]"
+          target_name: state
+        - source_name: mag
+          source_dtype: "int8[pyarrow]"
+          target_name: magnitude
+        - source_name: inj
+          source_dtype: "int16[pyarrow]"
+          target_name: injury_count
+        - source_name: fat
+          source_dtype: "int16[pyarrow]"
+          target_name: fatality_count
+        - source_name: slat
+          source_dtype: "float32[pyarrow]"
+          target_name: latitude_start
+        - source_name: slon
+          source_dtype: "float32[pyarrow]"
+          target_name: longitude_start
+        - source_name: elat
+          source_dtype: "float32[pyarrow]"
+          target_name: latitude_end
+        - source_name: elon
+          source_dtype: "float32[pyarrow]"
+          target_name: longitude_end
+        - source_name: len
+          source_dtype: "float32[pyarrow]"
+          target_name: length_miles
+        - source_name: wid
+          target_name: width_yards
+          source_dtype: "int16[pyarrow]"

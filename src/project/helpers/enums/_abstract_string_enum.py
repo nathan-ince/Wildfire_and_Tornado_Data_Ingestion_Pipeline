@@ -19,7 +19,7 @@ class AbstractStringEnum(str, AbstractEnum):
     return set(x.value for x in cls)
   
   @classmethod
-  def assign(
+  def define(
     cls,
     entity,
     entity_name: str | None = None,
@@ -39,7 +39,7 @@ class AbstractStringEnum(str, AbstractEnum):
       if track_entity_source_type: kwargs["entity_source_type"] = type(entity).__name__
       if track_entity_target_type: kwargs["entity_target_type"] = str.__name__
       if extra_kwargs: kwargs.update(extra_kwargs)
-      error = AbstractError("failed to make class from entity", "entity type is invalid", **kwargs)
+      error = AbstractError("failed to define entity as class", "entity type is invalid", **kwargs)
       if log_error: logger.error(error.message, extra=error.kwargs)
       raise error
     if not entity in cls.get_value_set():
@@ -49,7 +49,7 @@ class AbstractStringEnum(str, AbstractEnum):
       if track_entity_value: kwargs["entity_value"] = entity
       if track_valid_values: kwargs["valid_values"] = cls.get_value_set()
       if extra_kwargs: kwargs.update(extra_kwargs)
-      error = AbstractError("failed to make class from entity", "entity value is invalid", **kwargs)
+      error = AbstractError("failed to define entity as class", "entity value is invalid", **kwargs)
       if log_error: logger.error(error.message, extra=error.kwargs)
       raise error
     return cls(entity)
