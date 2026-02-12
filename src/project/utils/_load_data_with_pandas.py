@@ -24,6 +24,7 @@ def load_data_with_pandas(config: Config, source_index: int) -> DataFrame:
   source = config.sources[source_index]
   kwargs = {
     "source_index": source_index,
+    "source_name": source.name,
     "source_path": source.path,
     "source_format": source.format
   }

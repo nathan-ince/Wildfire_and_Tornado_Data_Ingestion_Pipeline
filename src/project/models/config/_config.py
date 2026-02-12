@@ -1,6 +1,6 @@
 import logging
 
-from typing import Literal, TypeAlias, Union
+from typing import Literal
 
 from pydantic.main import BaseModel
 
@@ -25,6 +25,8 @@ class SourceJSON(SourceBase):
   format: Literal["json"]
   options: None = None
 
+Source = SourceCSV | SourceJSON
+
 class Config(BaseModel):
   version: str
   target: Target
@@ -41,4 +43,4 @@ class Config(BaseModel):
       unique: bool = False
   sources: list[SourceCSV | SourceJSON]
 
-__all__ = ["Config"]
+__all__ = ["Config", "Source"]

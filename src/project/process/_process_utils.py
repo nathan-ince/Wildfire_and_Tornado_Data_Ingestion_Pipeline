@@ -30,9 +30,17 @@ def process_longitude(df: pd.DataFrame, name: str) -> tuple[pd.DataFrame, pd.Dat
   df_rejected["reason"] = f"invalid value :: {name}"
   return df_accepted, df_rejected
 
+def process_notna(df: pd.DataFrame, name: str) -> tuple[pd.DataFrame, pd.DataFrame]:
+  valid_mask = df[name].notna()
+  df_accepted = df[valid_mask]
+  df_rejected = df[~valid_mask].copy()
+  df_rejected["reason"] = f"invalid value :: {name}"
+  return df_accepted, df_rejected
+
 __all__ = [
   "process_between_int",
   "process_gte_zero",
   "process_latitude",
-  "process_longitude"
+  "process_longitude",
+  "process_notna"
 ]
