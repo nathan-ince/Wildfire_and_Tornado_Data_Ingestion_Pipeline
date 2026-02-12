@@ -1,122 +1,83 @@
-internal:
+version: 1.0.0
+target:
   tables:
-    accepted: tornado_usa
-    rejected: tornado_usa_rejects
+    accepted: tornado_usa_accepted
+    rejected: tornado_usa_rejected
   fields:
     - name: year
-      ptype: smallint
-      dtype: int16[pyarrow]
-      nullable: false
-      unique: false
+      type: smallint
     - name: month
-      ptype: smallint
-      dtype: int8[pyarrow] # this works because month will range from 1-12
-      nullable: false
-      unique: false
+      type: smallint
     - name: day
-      ptype: smallint
-      dtype: int8[pyarrow] # this works because day will range from 0-31
-      nullable: false
-      unique: false
+      type: smallint
     - name: date
-      ptype: date
-      dtype: date32[pyarrow]
-      nullable: false
-      unique: false
+      type: date
     - name: state
-      ptype: text
-      dtype: string[pyarrow]
-      nullable: false
-      unique: false
+      type: character(2)
     - name: magnitude
-      ptype: integer
-      dtype: int8[pyarrow]
-      nullable: false
-      unique: false
+      type: smallint
     - name: injury_count
-      ptype: integer
-      dtype: int16[pyarrow]
-      nullable: false
-      unique: false
+      type: smallint
     - name: fatality_count
-      ptype: integer
-      dtype: int16[pyarrow]
-      nullable: false
-      unique: false
+      type: smallint
     - name: latitude_start
-      ptype: real
-      dtype: float32[pyarrow]
-      nullable: false
-      unique: false
+      type: real
     - name: latitude_end
-      ptype: real
-      dtype: float32[pyarrow]
-      nullable: false
-      unique: false
+      type: real
     - name: longitude_start
-      ptype: real
-      dtype: float32[pyarrow]
-      nullable: false
-      unique: false
+      type: real
     - name: longitude_end
-      ptype: real
-      dtype: float32[pyarrow]
-      nullable: false
-      unique: false
+      type: real
     - name: length_miles
-      ptype: real
-      dtype: float32[pyarrow]
-      nullable: false
-      unique: false
+      type: real
     - name: width_yards
-      ptype: smallint
-      dtype: int16[pyarrow]
-      nullable: false
-      unique: false
-external:
-  sources:
-    - path: data/tornado_usa.csv
-      format: csv
-      fields:
-        - source_name: yr
-          source_dtype: "int16[pyarrow]"
-          target_name: year
-        - source_name: mo
-          source_dtype: "int8[pyarrow]"
-          target_name: month
-        - source_name: dy
-          source_dtype: "int8[pyarrow]"
-          target_name: day
-        - source_name: date
-          source_dtype: "date32[pyarrow]"
-          target_name: date
-        - source_name: st
-          source_dtype: "string[pyarrow]"
-          target_name: state
-        - source_name: mag
-          source_dtype: "int8[pyarrow]"
-          target_name: magnitude
-        - source_name: inj
-          source_dtype: "int16[pyarrow]"
-          target_name: injury_count
-        - source_name: fat
-          source_dtype: "int16[pyarrow]"
-          target_name: fatality_count
-        - source_name: slat
-          source_dtype: "float32[pyarrow]"
-          target_name: latitude_start
-        - source_name: slon
-          source_dtype: "float32[pyarrow]"
-          target_name: longitude_start
-        - source_name: elat
-          source_dtype: "float32[pyarrow]"
-          target_name: latitude_end
-        - source_name: elon
-          source_dtype: "float32[pyarrow]"
-          target_name: longitude_end
-        - source_name: len
-          source_dtype: "float32[pyarrow]"
-          target_name: length_miles
-        - source_name: wid
-          target_name: width_yards
-          source_dtype: "int16[pyarrow]"
+      type: smallint
+sources:
+  - name: standard
+    path: data/tornado_usa.csv
+    format: csv
+    options:
+      delimiter: ","
+    mapping:
+      yr:
+        name: year
+        type: int16[pyarrow]
+      mo:
+        name: month
+        type: int8[pyarrow]
+      dy:
+        name: day
+        type: int8[pyarrow]
+      date:
+        name: date
+        type: date32[pyarrow]
+      st:
+        name: state
+        type: string[pyarrow]
+      mag:
+        name: magnitude
+        type: int8[pyarrow]
+      inj:
+        name: injury_count
+        type: int16[pyarrow]
+      fat:
+        name: fatality_count
+        type: int16[pyarrow]
+      slat:
+        name: latitude_start
+        type: float32[pyarrow]
+      slon:
+        name: longitude_start
+        type: float32[pyarrow]
+      elat:
+        name: latitude_end
+        type: float32[pyarrow]
+      elon:
+        name: longitude_end
+        type: float32[pyarrow]
+      len:
+        name: length_miles
+        type: float32[pyarrow]
+      wid:
+        name: width_yards
+        type: int16[pyarrow]

@@ -1,80 +1,61 @@
-internal:
+version: 1.0.0
+target:
   tables:
-    accepted: wildfire_global
-    rejected: wildfire_global_rejects
+    accepted: wildfire_global_accepted
+    rejected: wildfire_global_rejected
   fields:
     - name: country
-      ptype: text
-      dtype: string[pyarrow]
-      nullable: false
-      unique: false
+      type: text
     - name: year
-      ptype: smallint
-      dtype: int16[pyarrow]
-      nullable: false
-      unique: false
+      type: smallint
     - name: month
-      ptype: text
-      dtype: string[pyarrow]
-      nullable: false
-      unique: false
+      type: varchar(9)
     - name: region
-      ptype: text
-      dtype: string[pyarrow]
-      nullable: false
-      unique: false
+      type: text
     - name: fires_count
-      ptype: smallint
-      dtype: int16[pyarrow]
-      nullable: false
-      unique: false
+      type: smallint
     - name: burned_area_hectares
-      ptype: integer
-      dtype: int16[pyarrow]
-      nullable: false
-      unique: false
+      type: integer
     - name: cause
-      ptype: text
-      dtype: string[pyarrow]
-      nullable: false
-      unique: false
+      type: text
     - name: temperature_celsius
-      ptype: smallint
-      dtype: int8[pyarrow]
-      nullable: false
-      unique: false
+      type: smallint
     - name: humidity_percent
-      ptype: smallint
-      dtype: int8[pyarrow]
-      nullable: false
-      unique: false
+      type: smallint
     - name: wind_speed_kmh
-      ptype: smallint
-      dtype: int8[pyarrow]
-      nullable: false
-      unique: false
-external:
-  sources:
-    - path: data/wildfire_global.csv
-      format: csv
-      fields:
-      - source_name: Country
-        target_name: country
-      - source_name: Year
-        target_name: year
-      - source_name: Month
-        target_name: month
-      - source_name: Region
-        target_name: region
-      - source_name: Fires_Count
-        target_name: fires_count
-      - source_name: Burned_Area_Hectares
-        target_name: burned_area_hectares
-      - source_name: Cause
-        target_name: cause
-      - source_name: Temperature_C
-        target_name: temperature_celsius
-      - source_name: Humidity_Percent
-        target_name: humidity_percent
-      - source_name: Wind_Speed_kmh
-        target_name: wind_speed_kmh
+      type: smallint
+sources:
+  - name: standard
+    path: data/wildfire_global.json
+    format: json
+    mapping:
+      Country:
+        name: country
+        type: string[pyarrow]
+      Year:
+        name: year
+        type: int16[pyarrow]
+      Month:
+        name: month
+        type: string[pyarrow]
+      Region:
+        name: region
+        type: string[pyarrow]
+      Fires_Count:
+        name: fires_count
+        type: int16[pyarrow]
+      Burned_Area_HA:
+        name: burned_area_hectares
+        type: int16[pyarrow]
+      Cause:
+        name: cause
+        type: string[pyarrow]
+      Temperature_C:
+        name: temperature_celsius
+        type: int16[pyarrow]
+      Humidity_Percent:
+        name: humidity_percent
+        type: int8[pyarrow]
+      Wind_Speed_kmh:
+        name: wind_speed_kmh
+        type: int16[pyarrow]

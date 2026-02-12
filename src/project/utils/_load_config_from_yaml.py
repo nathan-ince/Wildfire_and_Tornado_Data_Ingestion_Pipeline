@@ -40,18 +40,19 @@ def load_config_from_yaml(path: str) -> Config:
   logger.info(ATTEMPT_MESSAGE, extra={"path": path})
   try:
     content = load_from_yaml(path)
-    config = Config(**content)
-    internal_field_name_set = set(field.name for field in config.internal.fields)
-    sources = config.external.sources
+    config = Config.model_validate(content)
+    target_field_name_set = set(field.name for field in config.target.fields)
+    sources = config.sources
     for source_index in range(len(sources)):
       source = sources[source_index]
-      external_field_name_set = set(field.target_name for field in source.fields)
-      if internal_field_name_set != external_field_name_set:
-        error = LoadConfigFromYamlError(FAILURE_MESSAGE, "internal field name and external field name sets do not match", path=path, source_index=source_index)
+      source_mapping_field_name_set = set(mapping[1].name for mapping in source.mapping.items())
+      if source_mapping_field_name_set != target_field_name_set:
+        error = LoadConfigFromYamlError(FAILURE_MESSAGE, reason="source mapping field name set and target field name set do not match", path=path, source_index=source_index)
         logger.error(error.message, extra=error.kwargs)
         raise error
     logger.info(SUCCESS_MESSAGE, extra={"path": path})
     return config
+  except LoadConfigFromYamlError: raise
   except LoadFromYamlError as err:
     error = LoadConfigFromYamlError(FAILURE_MESSAGE, cause=type(err).__name__, path=path)
     logger.error(error.message, extra=error.kwargs)

@@ -21,27 +21,32 @@ def load_data_with_pandas(config: Config, source_index: int) -> DataFrame:
 
   `LoadDataWithPandasError`
   """
-  source = config.external.sources[source_index]
-  source_path = source.path
-  source_format = source.format
+  source = config.sources[source_index]
   kwargs = {
     "source_index": source_index,
-    "source_path": source_path,
-    "source_format": source_format
+    "source_path": source.path,
+    "source_format": source.format
   }
   logger.info(ATTEMPT_MESSAGE, extra=kwargs)
   try:
-    field_dtype_map = {field.source_name: field.source_dtype for field in source.fields}
-    match source_format:
-      case Config.External.Source.Format.CSV:
-        logger.debug("matched source format", extra={"format": source_format})
-        field_name_tuple = tuple(field.source_name for field in source.fields)
-        data = pd.read_csv(source_path, dtype_backend="pyarrow", engine="pyarrow", usecols=field_name_tuple, dtype={**field_dtype_map})
+    match source.format:
+      case "csv":
+        logger.debug("matched source format", extra={"format": source.format})
+        data = pd.read_csv(source.path,
+          dtype_backend="pyarrow",
+          engine="pyarrow",
+          usecols=tuple(source.mapping.keys()),
+          dtype={mapping[0]: mapping[1].type for mapping in source.mapping.items()},
+          delimiter=source.options.delimiter
+        )
         logger.info(SUCCESS_MESSAGE, extra=kwargs)
         return data
-      case Config.External.Source.Format.JSON:
-        logger.debug("matched source format", extra={"format": source_format})
-        data = pd.read_json(source_path, dtype_backend="pyarrow", dtype={**field_dtype_map})
+      case "json":
+        logger.debug("matched source format", extra={"format": source.format})
+        data = pd.read_json(source.path,
+          dtype_backend="pyarrow",
+          dtype={mapping[0]: mapping[1].type for mapping in source.mapping.items()}
+        )
         logger.info(SUCCESS_MESSAGE, extra=kwargs)
         return data
   except Exception as err:
