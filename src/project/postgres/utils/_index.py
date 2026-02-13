@@ -51,8 +51,8 @@ def initialize_main_process(main_process_id: UUID, main_process_start_timestamp:
   except Exception as err:
     error = InitializeMainProcessError(
       "failed to initialize main process",
-      main_process_id=main_process_id,
-      main_process_start_timestamp=main_process_start_timestamp
+      main_process_id=str(main_process_id),
+      main_process_start_timestamp=str(main_process_start_timestamp)
     )
     logger.error(error.message, extra=error.kwargs)
     raise error from err
@@ -90,9 +90,9 @@ def initialize_batch_process(main_process_id: UUID, batch_process_id: UUID, batc
   except Exception as err:
     error = InitializeBatchProcessError(
       "failed to initialize batch process",
-      main_process_id=main_process_id,
-      batch_process_id=batch_process_id,
-      batch_process_start_timestamp=batch_process_start_timestamp
+      main_process_id=str(main_process_id),
+      batch_process_id=str(batch_process_id),
+      batch_process_start_timestamp=str(batch_process_start_timestamp)
     )
     logger.error(error.message, extra=error.kwargs)
     raise error from err
