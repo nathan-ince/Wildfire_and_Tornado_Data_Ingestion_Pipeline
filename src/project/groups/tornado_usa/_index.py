@@ -8,7 +8,7 @@ from project.utils import (
 )
 from project.utils.process import (
   process_between_int,
-  process_duplicates,
+  process_duplicates_all_columns_keep_first,
   process_gte_zero,
   process_latitude,
   process_longitude,
@@ -120,7 +120,7 @@ def transform_data_completely(config: Config, source_index: int, df: pd.DataFram
     process_length_miles,
     process_width_yards,
     process_year_month_day_date, # intentionally here
-    process_duplicates # intentionally last
+    process_duplicates_all_columns_keep_first # intentionally last
   ))
   logger.info("transformed data")
   return result

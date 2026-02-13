@@ -17,8 +17,8 @@ def process_between_int(df: pd.DataFrame, name: str, left: int, right: int, incl
   df_rejected["reason"] = f"invalid value :: field name = {name}"
   return df_accepted, df_rejected
 
-def process_duplicates(data: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
-  invalid_mask = data.duplicated(keep=False)
+def process_duplicates_all_columns_keep_first(data: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
+  invalid_mask = data.duplicated(keep="first")
   df_accepted = data[~invalid_mask]
   df_rejected = data[invalid_mask].copy()
   df_rejected["reason"] = "duplicate record"
@@ -68,7 +68,7 @@ def process_string_notna_exactly_n_characters(df: pd.DataFrame, name: str, n: in
 
 __all__ = [
   "process_between_int",
-  "process_duplicates",
+  "process_duplicates_all_columns_keep_first",
   "process_gte_zero",
   "process_latitude",
   "process_longitude",
