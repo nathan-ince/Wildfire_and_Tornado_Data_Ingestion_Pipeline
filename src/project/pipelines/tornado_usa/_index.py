@@ -2,18 +2,18 @@ import logging
 import pandas as pd
 
 from project.models import Config
-from project.utils import (
-  rename_columns,
-  run_main_process,
-)
-from project.utils.process import (
+from project.pandas.utils import (
   process_between_int,
   process_duplicates_all_columns_keep_first,
   process_gte_zero,
   process_latitude,
   process_longitude,
   process_string_notna_exactly_n_characters,
-  process_chain
+  process_chain,
+  rename_columns
+)
+from project.utils import (
+  run_main_process,
 )
 
 logger = logging.getLogger(__name__)

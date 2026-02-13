@@ -3,8 +3,6 @@ A special function that returns `tuple[DataFrame, DataFrame]`
 
 This function will accept `DataFrame` and a sequence processes, which are functions that specifically accept `DataFrame` and return `tuple[DataFrame, DataFrame]`.
 
-There are some processes defined in `._process_utils.py`.
-
 The rejected `DataFrame`(s) will be collected in a list until the processes are complete, then combined into one `DataFrame`.
 """
 

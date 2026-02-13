@@ -1,7 +1,7 @@
 import logging
 
 from project.core import configure_logging
-from project.groups import tornado_usa, wildfire_global
+from project.pipelines import tornado_usa, wildfire_global
 
 logger = logging.getLogger(__name__)
 

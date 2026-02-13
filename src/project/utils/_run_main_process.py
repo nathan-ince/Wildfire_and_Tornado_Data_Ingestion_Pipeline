@@ -16,7 +16,7 @@ from project.postgres.utils import (
 
 from ._load_config_from_yaml import load_config_from_yaml, LoadConfigFromYamlError
 from ._load_data_with_pandas import load_data_with_pandas
-from ._stored_data_in_postgres import store_data_in_postgres
+from ._store_data_in_postgres import store_data_in_postgres
 
 logger = logging.getLogger(__name__)
 
