@@ -1,16 +1,198 @@
-accepted: "wildfire_global"
-rejected: "wildfire_global_rejects"
+name: wildfire_globall
+version: 1.0.0
+target:
+  tables:
+    accepted: wildfire_global_accepted
+    rejected: wildfire_global_rejected
+  fields:
+    - name: country
+      type: text
+    - name: year
+      type: smallint
+    - name: month
+      type: varchar(9)
+    - name: region
+      type: text
+    - name: fires_count
+      type: smallint
+    - name: burned_area_hectares
+      type: integer
+    - name: cause
+      type: text
+    - name: temperature_celsius
+      type: smallint
+    - name: humidity_percent
+      type: smallint
+    - name: wind_speed_kmh
+      type: smallint
 sources:
-  - path: "data/wildfire_global.json"
-    format: "json"
-    columns:
-      Country: "country"
-      Year: "year"
-      Month: "month"
-      Region: "region"
-      Cause: "cause"
-      Fires_Count: "recorded_fires_count"
-      Burned_Area_Ha: "burned_area_hectares"
-      Temperature_C: "temperature_celsius"
-      Humidity_Percent: "humidity_percent"
-      Wind_Speed_kmh: "wind_speed_kmh"
+  - name: standard
+    path: data/wildfire_global.json
+    format: json
+    mapping:
+      Country:
+        name: country
+        type: string[pyarrow]
+      Year:
+        name: year
+        type: int16[pyarrow]
+      Month:
+        name: month
+        type: string[pyarrow]
+      Region:
+        name: region
+        type: string[pyarrow]
+      Fires_Count:
+        name: fires_count
+        type: int16[pyarrow]
+      Burned_Area_Ha:
+        name: burned_area_hectares
+        type: int32[pyarrow]
+      Cause:
+        name: cause
+        type: string[pyarrow]
+      Temperature_C:
+        name: temperature_celsius
+        type: int16[pyarrow]
+      Humidity_Percent:
+        name: humidity_percent
+        type: int8[pyarrow]
+      Wind_Speed_kmh:
+        name: wind_speed_kmh
+        type: int16[pyarrow]
+  - name: standard
+    path: data/wildfire_global.json
+    format: json
+    mapping:
+      Country:
+        name: country
+        type: string[pyarrow]
+      Year:
+        name: year
+        type: int16[pyarrow]
+      Month:
+        name: month
+        type: string[pyarrow]
+      Region:
+        name: region
+        type: string[pyarrow]
+      Fires_Count:
+        name: fires_count
+        type: int16[pyarrow]
+      Burned_Area_Ha:
+        name: burned_area_hectares
+        type: int32[pyarrow]
+      Cause:
+        name: cause
+        type: string[pyarrow]
+      Temperature_C:
+        name: temperature_celsius
+        type: int16[pyarrow]
+      Humidity_Percent:
+        name: humidity_percent
+        type: int8[pyarrow]
+      Wind_Speed_kmh:
+        name: wind_speed_kmh
+        type: int16[pyarrow]
+  - name: standard
+    path: data/wildfire_global.json
+    format: json
+    mapping:
+      Country:
+        name: country
+        type: string[pyarrow]
+      Year:
+        name: year
+        type: int16[pyarrow]
+      Month:
+        name: month
+        type: string[pyarrow]
+      Region:
+        name: region
+        type: string[pyarrow]
+      Fires_Count:
+        name: fires_count
+        type: int16[pyarrow]
+      Burned_Area_Ha:
+        name: burned_area_hectares
+        type: int32[pyarrow]
+      Cause:
+        name: cause
+        type: string[pyarrow]
+      Temperature_C:
+        name: temperature_celsius
+        type: int16[pyarrow]
+      Humidity_Percent:
+        name: humidity_percent
+        type: int8[pyarrow]
+      Wind_Speed_kmh:
+        name: wind_speed_kmh
+        type: int16[pyarrow]
+  - name: standard
+    path: data/wildfire_global.json
+    format: json
+    mapping:
+      Country:
+        name: country
+        type: string[pyarrow]
+      Year:
+        name: year
+        type: int16[pyarrow]
+      Month:
+        name: month
+        type: string[pyarrow]
+      Region:
+        name: region
+        type: string[pyarrow]
+      Fires_Count:
+        name: fires_count
+        type: int16[pyarrow]
+      Burned_Area_Ha:
+        name: burned_area_hectares
+        type: int32[pyarrow]
+      Cause:
+        name: cause
+        type: string[pyarrow]
+      Temperature_C:
+        name: temperature_celsius
+        type: int16[pyarrow]
+      Humidity_Percent:
+        name: humidity_percent
+        type: int8[pyarrow]
+      Wind_Speed_kmh:
+        name: wind_speed_kmh
+        type: int16[pyarrow]
+  - name: standard
+    path: data/wildfire_global.json
+    format: json
+    mapping:
+      Country:
+        name: country
+        type: string[pyarrow]
+      Year:
+        name: year
+        type: int16[pyarrow]
+      Month:
+        name: month
+        type: string[pyarrow]
+      Region:
+        name: region
+        type: string[pyarrow]
+      Fires_Count:
+        name: fires_count
+        type: int16[pyarrow]
+      Burned_Area_Ha:
+        name: burned_area_hectares
+        type: int32[pyarrow]
+      Cause:
+        name: cause
+        type: string[pyarrow]
+      Temperature_C:
+        name: temperature_celsius
+        type: int16[pyarrow]
+      Humidity_Percent:
+        name: humidity_percent
+        type: int8[pyarrow]
+      Wind_Speed_kmh:
+        name: wind_speed_kmh
+        type: int16[pyarrow]

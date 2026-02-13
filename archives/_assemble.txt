@@ -1,0 +1,74 @@
+from typing import Generic, Literal, TypedDict, TypeVar
+
+from project.helpers.errors import AbstractError
+
+class MissingRequiredAttributeError(AbstractError):
+  def __init__(self,
+    object: dict,
+    absent_attribute_name: str,
+    object_name: str | None = None,
+    *args, **kwargs
+  ):
+    self.class_type = object.__class__
+    self.class_type_name = object.__class__.__name__
+    self.object = object
+    self.object_name = object_name
+    self.absent_attribute_name = absent_attribute_name
+    self.present_attribute_names = set(object.keys())
+    super().__init__(
+      "missing required attribute",
+      *args,
+      class_type=self.class_type_name,
+      object_name=self.object_name,
+      absent_attribute_name=self.absent_attribute_name,
+      present_attribute_names=self.present_attribute_names,
+      **kwargs
+    )
+
+class UnexpectedAttributeTypeError(AbstractError):
+  def __init__(self,
+    object: object,
+    attribute: object,
+    attribute_name: str,
+    attribute_type_expected: type | tuple[type, ...],
+    object_name: str | None = None,
+    *args, **kwargs
+  ):
+    self.class_type = object.__class__
+    self.class_type_name = object.__class__.__name__
+    self.object = object
+    self.object_name = object_name
+    self.attribute = attribute
+    self.attribute_name = attribute_name
+    self.attribute_type_received = type(attribute).__name__
+    self.attribute_type_expected = attribute_type_expected.__name__ if isinstance(attribute_type_expected, type) else tuple(ttype.__name__ for ttype in attribute_type_expected)
+    super().__init__(
+      "attribute type is unexpected",
+      *args,
+      class_type=self.class_type_name,
+      object_name=self.object_name,
+      attribute_name=self.attribute_name,
+      attribute_type_received=self.attribute_type_received,
+      attribute_type_expected=self.attribute_type_expected,
+      **kwargs
+    )
+
+T = TypeVar("T")
+
+class SuccessResult(TypedDict, Generic[T]):
+  success: Literal[True]
+  attribute: T
+
+class ErrorResult(TypedDict):
+  success: Literal[False]
+  error: MissingRequiredAttributeError | UnexpectedAttributeTypeError
+
+def required(object: dict, attribute_name: str, attribute_type_expected: type[T] | tuple[type[T], ...] | None = None, object_name: str | None = None) -> SuccessResult[T] | ErrorResult:
+  if (attribute := object.get(attribute_name)) is None:
+    error = MissingRequiredAttributeError(object, attribute_name, object_name)
+    return ErrorResult(success=False, error=error)
+  if attribute_type_expected is None: return SuccessResult(success=True, attribute=attribute)
+  if not isinstance(attribute, attribute_type_expected):
+    error = UnexpectedAttributeTypeError(object, attribute, attribute_name, attribute_type_expected, object_name)
+    return ErrorResult(success=False, error=error)
+  return SuccessResult(success=True, attribute=attribute)

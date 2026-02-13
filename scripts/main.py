@@ -1,13 +1,11 @@
 import logging
-from project.utils.ingest import ingest
 
+from project.core import configure_logging
+from project.groups import tornado_usa, wildfire_global
 
-def main() -> None:
-    logging.basicConfig(level=logging.INFO, format="%(message)s")
-
-    ingest("config/wildfire_global.yaml")
-    ingest("config/tornado_usa.yaml")
-
+logger = logging.getLogger(__name__)
 
 if __name__ == "__main__":
-    main()
+  configure_logging()
+  tornado_usa.start()
+  wildfire_global.start()

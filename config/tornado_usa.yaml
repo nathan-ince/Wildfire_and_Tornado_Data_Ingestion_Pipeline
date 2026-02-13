@@ -1,20 +1,84 @@
-accepted: "tornado_usa"
-rejected: "tornado_usa_rejects"
+name: tornado_usa
+version: 1.0.0
+target:
+  tables:
+    accepted: tornado_usa_accepted
+    rejected: tornado_usa_rejected
+  fields:
+    - name: year
+      type: smallint
+    - name: month
+      type: smallint
+    - name: day
+      type: smallint
+    - name: date
+      type: date
+    - name: state
+      type: character(2)
+    - name: magnitude
+      type: smallint
+    - name: injury_count
+      type: smallint
+    - name: fatality_count
+      type: smallint
+    - name: latitude_start
+      type: real
+    - name: latitude_end
+      type: real
+    - name: longitude_start
+      type: real
+    - name: longitude_end
+      type: real
+    - name: length_miles
+      type: real
+    - name: width_yards
+      type: smallint
 sources:
-  - path: "data/tornado_usa.csv"
-    format: "csv"
-    columns:
-      yr: "year"
-      mo: "month"
-      dy: "day"
-      date: "date"
-      st: "state"
-      mag: "magnitude"
-      inj: "injury_count"
-      fat: "fatality_count"
-      slat: "latitude_start"
-      elat: "latitude_end"
-      slon: "longitude_start"
-      elon: "longitude_end"
-      len: "length_miles"
-      wid: "width_yards"
+  - name: standard
+    path: data/tornado_usa.csv
+    format: csv
+    options:
+      delimiter: ","
+    mapping:
+      yr:
+        name: year
+        type: int16[pyarrow]
+      mo:
+        name: month
+        type: int8[pyarrow]
+      dy:
+        name: day
+        type: int8[pyarrow]
+      date:
+        name: date
+        type: date32[pyarrow]
+      st:
+        name: state
+        type: string[pyarrow]
+      mag:
+        name: magnitude
+        type: int8[pyarrow]
+      inj:
+        name: injury_count
+        type: int16[pyarrow]
+      fat:
+        name: fatality_count
+        type: int16[pyarrow]
+      slat:
+        name: latitude_start
+        type: float32[pyarrow]
+      slon:
+        name: longitude_start
+        type: float32[pyarrow]
+      elat:
+        name: latitude_end
+        type: float32[pyarrow]
+      elon:
+        name: longitude_end
+        type: float32[pyarrow]
+      len:
+        name: length_miles
+        type: float32[pyarrow]
+      wid:
+        name: width_yards
+        type: int16[pyarrow]
