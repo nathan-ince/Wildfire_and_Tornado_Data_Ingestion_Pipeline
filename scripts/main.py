@@ -7,5 +7,5 @@ logger = logging.getLogger(__name__)
 
 if __name__ == "__main__":
   configure_logging()
-  # tornado_usa.start()
+  tornado_usa.start()
   wildfire_global.start()

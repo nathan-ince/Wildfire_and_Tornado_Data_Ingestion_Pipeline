@@ -10,7 +10,7 @@ from ..models import Config
 logger = logging.getLogger(__name__)
 
 ATTEMPT_MESSAGE = "loading config from yaml"
-SUCCESS_MESSAGE = "successfully loaded config from yaml"
+SUCCESS_MESSAGE = "loaded config from yaml"
 FAILURE_MESSAGE = "failed to load config from yaml"
 
 class LoadConfigFromYamlError(AbstractError): pass
@@ -33,12 +33,14 @@ def load_config_from_yaml(path: str) -> Config:
 
   `Config` - the content of the `yaml` file
 
+  ---
+
   ### **Throws**
 
   `LoadConfigFromYamlError`
   """
-  logger.info(ATTEMPT_MESSAGE, extra={"path": path})
   try:
+    logger.info(ATTEMPT_MESSAGE, extra={"path": path})
     content = load_from_yaml(path)
     config = Config.model_validate(content)
     target_field_name_set = set(field.name for field in config.target.fields)
@@ -53,10 +55,6 @@ def load_config_from_yaml(path: str) -> Config:
     logger.info(SUCCESS_MESSAGE, extra={"path": path})
     return config
   except LoadConfigFromYamlError: raise
-  except LoadFromYamlError as err:
-    error = LoadConfigFromYamlError(FAILURE_MESSAGE, cause=type(err).__name__, path=path)
-    logger.error(error.message, extra=error.kwargs)
-    raise error from err
   except ValidationError as err:
     error = LoadConfigFromYamlError(FAILURE_MESSAGE, cause=type(err).__name__, path=path, error_count=err.error_count())
     logger.error(error.message, extra=error.kwargs)

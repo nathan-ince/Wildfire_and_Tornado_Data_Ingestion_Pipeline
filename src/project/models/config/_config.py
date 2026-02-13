@@ -28,6 +28,7 @@ class SourceJSON(SourceBase):
 Source = SourceCSV | SourceJSON
 
 class Config(BaseModel):
+  name: str
   version: str
   target: Target
   class Target(BaseModel):

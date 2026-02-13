@@ -18,7 +18,7 @@ def store_data_in_postgres(config: Config, df_accepted: DataFrame, df_rejected: 
       if_exists="delete_rows",
       index=False,
     )
-    logger.info("successfully stored accepted records in postgres")
+    logger.info("stored accepted records in postgres")
   else:
     logger.info("no accepted records to store in postgres")
 
@@ -33,7 +33,7 @@ def store_data_in_postgres(config: Config, df_accepted: DataFrame, df_rejected: 
       if_exists="delete_rows",
       index=False,
     )
-    logger.info("successfully stored rejected records in postgres")
+    logger.info("stored rejected records in postgres")
   else:
     logger.info("no rejected records to load in postgres")
 

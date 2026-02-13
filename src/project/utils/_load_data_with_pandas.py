@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 class LoadDataWithPandasError(AbstractError): pass
 
 ATTEMPT_MESSAGE = "loading data with pandas"
-SUCCESS_MESSAGE = "successfully loaded data with pandas"
+SUCCESS_MESSAGE = "loaded data with pandas"
 FAILURE_MESSAGE = "failed to load data with pandas"
 
 def load_data_with_pandas(config: Config, source_index: int) -> DataFrame:

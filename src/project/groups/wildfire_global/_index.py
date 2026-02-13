@@ -2,46 +2,37 @@ import logging
 import pandas as pd
 
 from project.models import Config
-from project.process import (
+from project.utils import (
+  rename_columns,
+  run_main_process,
+)
+from project.utils.process import (
   process_between_int,
   process_duplicates,
   process_gte_zero,
   process_notna,
+  process_string_notna_at_most_n_characters,
   process_chain
-)
-from project.utils import (
-  rename_columns,
-  start_main_process,
 )
 
 logger = logging.getLogger(__name__)
 
 def process_country(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
-  valid_mask = df["country"].notna()
-  df["country"] = df["country"].str.strip().str.title() # maybe title, maybe not
-  df_accepted = df[valid_mask]
-  df_rejected = df[~valid_mask].copy()
-  df_rejected["reason"] = "invalid value :: country"
+  df_accepted, df_rejected = process_notna(df, "country")
+  df_accepted["country"].str.strip().str.title()
   return df_accepted, df_rejected
 
 def process_year(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
   return process_notna(df, "year")
 
 def process_month(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
-  valid_mask = df["month"].notna() & (df["month"].str.strip().str.len() <= 9) # September is longest month name with 9 characters
-  df["month"] = df["month"].str.strip().str.title() # yes title
-  valid_mask = df["month"].notna()
-  df_accepted = df[valid_mask]
-  df_rejected = df[~valid_mask].copy()
-  df_rejected["reason"] = "invalid value :: month"
+  df_accepted, df_rejected = process_string_notna_at_most_n_characters(df, "month", 9)
+  df_accepted["month"].str.strip().str.title()
   return df_accepted, df_rejected
 
 def process_region(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
-  valid_mask = df["region"].notna()
-  df["region"] = df["region"].str.strip().str.title() # maybe title, maybe not
-  df_accepted = df[valid_mask]
-  df_rejected = df[~valid_mask].copy()
-  df_rejected["reason"] = "invalid value :: region"
+  df_accepted, df_rejected = process_notna(df, "region")
+  df_accepted["region"].str.strip().str.title()
   return df_accepted, df_rejected
 
 def process_fires_count(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
@@ -81,11 +72,11 @@ def transform_data_completely(config: Config, source_index: int, df: pd.DataFram
     process_temperature_celsius,
     process_humidity_percent,
     process_wind_speed_kmh,
-    process_duplicates
+    process_duplicates # intentionally last
   ))
-  logger.info("successfully transformed data")
+  logger.info("transformed data")
   return result
 
-def start(): start_main_process("config/wildfire_global.yaml", transform_data_completely)
+def start(): run_main_process("config/wildfire_global.yaml", transform_data_completely)
 
 __all__ = ["start"]
