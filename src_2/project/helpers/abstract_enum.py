@@ -13,5 +13,3 @@ class AbstractEnum(Enum):
   @classmethod
   def get_value_set(cls) -> set:
     return set(x.value for x in cls)
-
-__all__ = ["AbstractEnum"]

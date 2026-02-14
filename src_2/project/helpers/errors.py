@@ -3,5 +3,3 @@ class AbstractError(Exception):
     self.args = args
     self.kwargs = {"error": self.__class__.__name__, **kwargs}
     self.message = " :: ".join(map(str, args))
-
-__all__ = ["AbstractError"]

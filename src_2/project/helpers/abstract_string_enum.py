@@ -53,5 +53,3 @@ class AbstractStringEnum(str, AbstractEnum):
       if log_error: logger.error(error.message, extra=error.kwargs)
       raise error
     return cls(entity)
-
-__all__ = ["AbstractStringEnum"]
