@@ -2,8 +2,12 @@ name: wildfire_globall
 version: 1.0.0
 target:
   tables:
-    accepted: wildfire_global_accepted
-    rejected: wildfire_global_rejected
+    accepted_final: wildfire_global_accepted_final
+    accepted_stage: wildfire_global_accepted_stage
+    rejected_final: wildfire_global_rejected_final
+    rejected_stage: wildfire_global_rejected_stage
+  merge_accepted: "merge_wildfire_global_accepted.sql"
+  merge_rejected: "merge_wildfire_global_rejected.sql"
   fields:
     - name: country
       type: text

@@ -1,5 +1,5 @@
 import pytest
-import project.io.config as config_mod
+import project.read.read_config as config_mod
 
 
 class _Field:

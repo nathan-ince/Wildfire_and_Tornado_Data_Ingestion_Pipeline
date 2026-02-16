@@ -1,8 +1,8 @@
 import pandas as pd
 
 def dedupe_keep_first(data: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
-  invalid_mask = data.duplicated(keep="first")
+  invalid_mask = data.duplicated(keep=False)
   df_accepted = data[~invalid_mask]
   df_rejected = data[invalid_mask].copy()
-  df_rejected["reason"] = "duplicate record"
+  df_rejected["rejected_reason"] = "duplicate record"
   return df_accepted, df_rejected

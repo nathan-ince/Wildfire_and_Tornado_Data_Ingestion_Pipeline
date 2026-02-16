@@ -33,9 +33,13 @@ class Config(BaseModel):
   target: Target
   class Target(BaseModel):
     tables: Tables
+    merge_accepted: str
+    merge_rejected: str
     class Tables(BaseModel):
-      accepted: str
-      rejected: str
+      accepted_final: str
+      accepted_stage: str
+      rejected_final: str
+      rejected_stage: str
     fields: list[Field]
     class Field(BaseModel):
       name: str

@@ -8,6 +8,8 @@ from project.transform.dedupe import dedupe_keep_first
 
 from project.pipelines.tornado_usa import validators
 
+from project.utils.compute_record_hash_series import compute_record_hash_series_exclude
+
 logger = logging.getLogger(__name__)
 
 def transform(config: Config, source_index: int, df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
@@ -35,8 +37,17 @@ def transform(config: Config, source_index: int, df: pd.DataFrame) -> tuple[pd.D
         ),
     )
 
-    df_accepted, df_dupes = dedupe_keep_first(df_accepted)
-    df_rejected = pd.concat([df_rejected, df_dupes], ignore_index=True)
+    df_accepted = df_accepted[~df_accepted.duplicated(keep=False)]
+
+    # batch process id has not been been appended to either dataframe yet
+    df_accepted_hash_series = compute_record_hash_series_exclude(df_accepted)
+    df_rejected_hash_series = compute_record_hash_series_exclude(df_rejected, ["rejected_reason"])
+
+    df_accepted = df_accepted.copy()
+    df_rejected = df_rejected.copy()
+
+    df_accepted["content_hash"] = df_accepted_hash_series
+    df_rejected["content_hash"] = df_rejected_hash_series
 
     logger.info("transformed data")
     return df_accepted, df_rejected

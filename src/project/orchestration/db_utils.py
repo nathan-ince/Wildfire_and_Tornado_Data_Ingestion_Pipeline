@@ -3,10 +3,10 @@ import logging
 from datetime import datetime
 from uuid import UUID
 
-from project.core.db import get_engine
+from project.core.db import dbengine
 from project.helpers.errors import AbstractError
 from project.orchestration.types import Status
-from project.io.sql_reader import read_sql_statement
+from project.read.read_sql import read_sql_statement
 
 INITIALIZE_MAIN_PROCESS = read_sql_statement("initialize_main_process.sql")
 INITIALIZE_BATCH_PROCESS = read_sql_statement("initialize_batch_process.sql")
@@ -20,15 +20,16 @@ class FinalizeBatchProcessError(AbstractError): pass
 
 logger = logging.getLogger(__name__)
 
-def initialize_main_process(main_process_id: UUID, main_process_start_timestamp: datetime) -> None:
+def initialize_main_process(pipeline_name: str, main_process_id: UUID, main_process_start_timestamp: datetime) -> None:
   try:
     logger.info("initializing main process", extra={
       "main_process_id": str(main_process_id),
       "main_process_start_timestamp": str(main_process_start_timestamp)
     })
-    with get_engine().begin() as connection:
+    with dbengine.begin() as connection:
       connection.execute(INITIALIZE_MAIN_PROCESS, {
         "id": main_process_id,
+        "name": pipeline_name,
         "status": Status.Running.value,
         "start_timestamp": main_process_start_timestamp
       })
@@ -46,21 +47,24 @@ def initialize_main_process(main_process_id: UUID, main_process_start_timestamp:
     logger.error(error.message, extra=error.kwargs)
     raise error from err
 
-def initialize_batch_process(main_process_id: UUID, batch_process_id: UUID, batch_process_start_timestamp: datetime) -> None:
+def initialize_batch_process(source_name: str, main_process_id: UUID, batch_process_id: UUID, batch_process_start_timestamp: datetime) -> None:
   try:
     logger.info("initializing batch process", extra={
+      "source_name": str(source_name),
       "main_process_id": str(main_process_id),
       "batch_process_id": str(batch_process_id),
       "batch_process_start_timestamp": str(batch_process_start_timestamp)
     })
-    with get_engine().begin() as connection:
+    with dbengine.begin() as connection:
       connection.execute(INITIALIZE_BATCH_PROCESS, {
         "main_process_id": main_process_id,
         "id": batch_process_id,
+        "name": str(source_name),
         "status": Status.Running.value,
         "start_timestamp": batch_process_start_timestamp
       })
     logger.info("initialized batch process", extra={
+      "source_name": str(source_name),
       "main_process_id": str(main_process_id),
       "batch_process_id": str(batch_process_id),
       "batch_process_start_timestamp": str(batch_process_start_timestamp)
@@ -81,7 +85,7 @@ def finalize_main_process(main_process_id: UUID, main_process_status: Status, ma
       "main_process_id": str(main_process_id),
       "main_process_final_timestamp": str(main_process_final_timestamp)
     })
-    with get_engine().begin() as connection:
+    with dbengine.begin() as connection:
       connection.execute(FINALIZE_MAIN_PROCESS, {
         "id": main_process_id,
         "status": main_process_status.value,
@@ -107,7 +111,7 @@ def finalize_batch_process(batch_process_id: UUID, batch_process_status: Status,
       "batch_process_id": str(batch_process_id),
       "batch_process_final_timestamp": str(batch_process_final_timestamp)
     })
-    with get_engine().begin() as connection:
+    with dbengine.begin() as connection:
       connection.execute(FINALIZE_BATCH_PROCESS, {
         "id": batch_process_id,
         "status": batch_process_status.value,

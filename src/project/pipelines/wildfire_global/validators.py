@@ -36,7 +36,7 @@ def validate_cause(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
     df["cause"] = df["cause"].str.strip()
 
     df_rejected = df.iloc[0:0].copy()
-    df_rejected["reason"] = pd.Series(dtype="string[pyarrow]")
+    df_rejected["rejected_reason"] = pd.Series(dtype="string[pyarrow]")
     return df, df_rejected
 
 def validate_temperature_celsius(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:

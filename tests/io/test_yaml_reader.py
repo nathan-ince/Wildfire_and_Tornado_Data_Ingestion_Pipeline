@@ -1,5 +1,5 @@
 import pytest
-from project.io.yaml_reader import read_from_yaml, ReadFromYamlError
+from project.read.read_yaml import read_from_yaml, ReadFromYamlError
 
 
 def test_read_yaml_valid(tmp_path):

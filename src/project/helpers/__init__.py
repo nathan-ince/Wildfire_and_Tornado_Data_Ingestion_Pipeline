@@ -1,4 +1,4 @@
-from ..io.yaml_reader import read_from_yaml, ReadFromYamlError
+from ..read.read_yaml import read_from_yaml, ReadFromYamlError
 from .abstract_enum import AbstractEnum
 from .abstract_string_enum import AbstractStringEnum
 from .errors import AbstractError

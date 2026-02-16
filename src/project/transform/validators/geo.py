@@ -7,7 +7,7 @@
 #         )
 #     df_accepted = df[valid_mask]
 #     df_rejected = df[~valid_mask].copy()
-#     df_rejected["reason"] = f"invalid value :: field name = {name}"
+#     df_rejected["rejected_reason"] = f"invalid value :: field name = {name}"
 #     return df_accepted, df_rejected
 
 # def validate_longitude(df: pd.DataFrame, name: str) -> tuple[pd.DataFrame, pd.DataFrame]:
@@ -17,7 +17,7 @@
 #         )
 #     df_accepted = df[valid_mask]
 #     df_rejected = df[~valid_mask].copy()
-#     df_rejected["reason"] = f"invalid value :: field name = {name}"
+#     df_rejected["rejected_reason"] = f"invalid value :: field name = {name}"
 #     return df_accepted, df_rejected
 
 import pandas as pd
@@ -29,7 +29,7 @@ def validate_latitude(df: pd.DataFrame, name: str) -> tuple[pd.DataFrame, pd.Dat
     )
     df_accepted = df[valid_mask]
     df_rejected = df[~valid_mask].copy()
-    df_rejected["reason"] = f"invalid value :: field name = {name}"
+    df_rejected["rejected_reason"] = f"invalid value :: field name = {name}"
     return df_accepted, df_rejected
 
 
@@ -40,5 +40,5 @@ def validate_longitude(df: pd.DataFrame, name: str) -> tuple[pd.DataFrame, pd.Da
     )
     df_accepted = df[valid_mask]
     df_rejected = df[~valid_mask].copy()
-    df_rejected["reason"] = f"invalid value :: field name = {name}"
+    df_rejected["rejected_reason"] = f"invalid value :: field name = {name}"
     return df_accepted, df_rejected

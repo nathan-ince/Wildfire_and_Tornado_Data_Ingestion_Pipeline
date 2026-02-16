@@ -16,7 +16,7 @@ def validate_year(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
     valid_mask = df["year"].notna()
     df_accepted = df[valid_mask]
     df_rejected = df[~valid_mask].copy()
-    df_rejected["reason"] = "invalid value :: year"
+    df_rejected["rejected_reason"] = "invalid value :: year"
     return df_accepted, df_rejected
 
 def validate_month(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
@@ -30,7 +30,7 @@ def validate_month(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
     valid_mask = df["month"].notna() & df["month"].between(1, 12)
     df_accepted = df[valid_mask]
     df_rejected = df[~valid_mask].copy()
-    df_rejected["reason"] = "invalid value :: month"
+    df_rejected["rejected_reason"] = "invalid value :: month"
     return df_accepted, df_rejected
 
 def validate_day(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
@@ -44,7 +44,7 @@ def validate_day(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
     valid_mask = df["day"].notna() & df["day"].between(1, 31)
     df_accepted = df[valid_mask]
     df_rejected = df[~valid_mask].copy()
-    df_rejected["reason"] = "invalid value :: day"
+    df_rejected["rejected_reason"] = "invalid value :: day"
     return df_accepted, df_rejected
 
 def validate_date(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
@@ -66,7 +66,7 @@ def validate_date(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
     valid_mask = df["date"].notna()
     df_accepted = df[valid_mask]
     df_rejected = df[~valid_mask].copy()
-    df_rejected["reason"] = "invalid value :: date"
+    df_rejected["rejected_reason"] = "invalid value :: date"
     return df_accepted, df_rejected
 
 def validate_year_month_day_date(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
@@ -78,7 +78,7 @@ def validate_year_month_day_date(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.Dat
     )
     df_accepted = df.loc[valid_mask]
     df_rejected = df.loc[~valid_mask].copy()
-    df_rejected["reason"] = "invalid combination :: year/month/day/date"
+    df_rejected["rejected_reason"] = "invalid combination :: year/month/day/date"
     return df_accepted, df_rejected
 
 def validate_state(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:

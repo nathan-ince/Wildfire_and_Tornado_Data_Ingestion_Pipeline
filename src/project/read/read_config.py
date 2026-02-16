@@ -3,7 +3,7 @@ import logging
 from pydantic import ValidationError
 
 from project.helpers.errors import AbstractError
-from project.io.yaml_reader import read_from_yaml, ReadFromYamlError
+from project.read.read_yaml import read_from_yaml, ReadFromYamlError
 from project.models.config import Config
 
 logger = logging.getLogger(__name__)

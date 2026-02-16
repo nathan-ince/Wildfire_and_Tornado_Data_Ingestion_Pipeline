@@ -1,7 +1,7 @@
 import pandas as pd
 import pytest
 
-import project.io.reader as reader_mod
+import project.read.read_data as reader_mod
 
 
 class _Field:
