@@ -2,9 +2,11 @@ import logging
 import structlog
 
 from logging.handlers import RotatingFileHandler
-from project.core.settings import settings
+from project.core.settings import get_settings
 
 def configure_logging():
+  settings = get_settings()
+
   settings.log_directory_path.mkdir(exist_ok=True)
 
   root_logger = logging.getLogger()
@@ -39,7 +41,7 @@ def configure_logging():
     processor=structlog.dev.ConsoleRenderer(
       colors=True,
       pad_level=False,
-      pad_event=0
+      pad_event_to=0
     ),
     foreign_pre_chain=shared_processors
   )
