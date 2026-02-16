@@ -11,8 +11,13 @@
 #   start_tornado_usa()
 #   start_wildfire_global()
 
+from dotenv import load_dotenv
+load_dotenv()
+
+
 from pydantic import ValidationError
 import sys
+
 
 from project.core.settings import get_settings
 from project.core import configure_logging
@@ -22,6 +27,7 @@ from project.pipelines.wildfire_global.pipeline import start as start_wildfire_g
 from project.visualization.plots import plot_tornado_and_wildfire_per_state
 
 if __name__ == "__main__":
+
     try:
         get_settings()
     except ValidationError as e:
