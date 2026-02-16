@@ -9,9 +9,11 @@ def test_build_engine(monkeypatch):
     fake_settings.db_username = "user"
     fake_settings.db_password = "pass"
 
-    monkeypatch.setattr(db, "get_settings", MagicMock(return_value=fake_settings))
-    monkeypatch.setattr(db, "create_engine", MagicMock())
+    monkeypatch.setattr(db, "get_settings", lambda: fake_settings)
+
+    mock_engine = MagicMock()
+    monkeypatch.setattr(db, "create_engine", mock_engine)
 
     db.build_engine()
 
-    db.create_engine.assert_called_once()
+    assert mock_engine.call_count == 1
