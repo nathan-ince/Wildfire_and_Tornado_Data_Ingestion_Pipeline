@@ -1,67 +1,53 @@
 import pytest
 from uuid import uuid4
 from datetime import datetime, timezone
+from unittest.mock import MagicMock
 
 import project.orchestration.db_utils as dbu
 from project.orchestration.types import Status
 
 
-class _FakeConnection:
-    def __init__(self, should_raise: Exception | None = None):
-        self.should_raise = should_raise
-        self.calls = []  # (stmt, params)
+@pytest.fixture
+def mock_engine():
+    engine = MagicMock()
+    connection = MagicMock()
 
-    def execute(self, stmt, params):
-        if self.should_raise:
-            raise self.should_raise
-        self.calls.append((stmt, params))
+    # engine.begin() returns a context manager
+    ctx = MagicMock()
+    ctx.__enter__.return_value = connection
+    ctx.__exit__.return_value = False
+    engine.begin.return_value = ctx
 
-
-class _BeginCtx:
-    def __init__(self, conn: _FakeConnection):
-        self.conn = conn
-
-    def __enter__(self):
-        return self.conn
-
-    def __exit__(self, exc_type, exc, tb):
-        return False
+    return engine, connection
 
 
-class _FakeEngine:
-    def __init__(self, conn: _FakeConnection):
-        self._conn = conn
+def test_initialize_main_process_executes_statement(monkeypatch, mock_engine):
+    engine, connection = mock_engine
 
-    def begin(self):
-        return _BeginCtx(self._conn)
-
-
-def test_initialize_main_process_executes_statement(monkeypatch):
-    monkeypatch.setattr(dbu, "INITIALIZE_MAIN_PROCESS", "INIT_MAIN_SQL")
-
-    conn = _FakeConnection()
-    engine = _FakeEngine(conn)
-    monkeypatch.setattr(dbu, "get_engine", lambda: engine)
+    monkeypatch.setattr(dbu, "get_engine", MagicMock(return_value=engine))
+    monkeypatch.setattr(dbu, "read_sql_statement", MagicMock(return_value="INIT_MAIN_SQL"))
 
     main_id = uuid4()
     ts = datetime(2026, 2, 15, tzinfo=timezone.utc)
 
     dbu.initialize_main_process(main_id, ts)
 
-    assert len(conn.calls) == 1
-    stmt, params = conn.calls[0]
+    connection.execute.assert_called_once()
+    stmt, params = connection.execute.call_args[0]
+
     assert stmt == "INIT_MAIN_SQL"
     assert params["id"] == main_id
     assert params["status"] == Status.Running.value
     assert params["start_timestamp"] == ts
 
 
-def test_initialize_main_process_wraps_errors(monkeypatch):
-    monkeypatch.setattr(dbu, "INITIALIZE_MAIN_PROCESS", "INIT_MAIN_SQL")
+def test_initialize_main_process_wraps_errors(monkeypatch, mock_engine):
+    engine, connection = mock_engine
 
-    conn = _FakeConnection(should_raise=RuntimeError("db down"))
-    engine = _FakeEngine(conn)
-    monkeypatch.setattr(dbu, "get_engine", lambda: engine)
+    monkeypatch.setattr(dbu, "get_engine", MagicMock(return_value=engine))
+    monkeypatch.setattr(dbu, "read_sql_statement", MagicMock(return_value="INIT_MAIN_SQL"))
+
+    connection.execute.side_effect = RuntimeError("db down")
 
     main_id = uuid4()
     ts = datetime(2026, 2, 15, tzinfo=timezone.utc)
@@ -70,32 +56,33 @@ def test_initialize_main_process_wraps_errors(monkeypatch):
         dbu.initialize_main_process(main_id, ts)
 
 
-def test_finalize_batch_process_executes_statement(monkeypatch):
-    monkeypatch.setattr(dbu, "FINALIZE_BATCH_PROCESS", "FIN_BATCH_SQL")
+def test_finalize_batch_process_executes_statement(monkeypatch, mock_engine):
+    engine, connection = mock_engine
 
-    conn = _FakeConnection()
-    engine = _FakeEngine(conn)
-    monkeypatch.setattr(dbu, "get_engine", lambda: engine)
+    monkeypatch.setattr(dbu, "get_engine", MagicMock(return_value=engine))
+    monkeypatch.setattr(dbu, "read_sql_statement", MagicMock(return_value="FIN_BATCH_SQL"))
 
     batch_id = uuid4()
     ts = datetime(2026, 2, 15, tzinfo=timezone.utc)
 
     dbu.finalize_batch_process(batch_id, Status.Success, ts)
 
-    assert len(conn.calls) == 1
-    stmt, params = conn.calls[0]
+    connection.execute.assert_called_once()
+    stmt, params = connection.execute.call_args[0]
+
     assert stmt == "FIN_BATCH_SQL"
     assert params["id"] == batch_id
     assert params["status"] == Status.Success.value
     assert params["final_timestamp"] == ts
 
 
-def test_finalize_batch_process_wraps_errors(monkeypatch):
-    monkeypatch.setattr(dbu, "FINALIZE_BATCH_PROCESS", "FIN_BATCH_SQL")
+def test_finalize_batch_process_wraps_errors(monkeypatch, mock_engine):
+    engine, connection = mock_engine
 
-    conn = _FakeConnection(should_raise=ValueError("bad sql"))
-    engine = _FakeEngine(conn)
-    monkeypatch.setattr(dbu, "get_engine", lambda: engine)
+    monkeypatch.setattr(dbu, "get_engine", MagicMock(return_value=engine))
+    monkeypatch.setattr(dbu, "read_sql_statement", MagicMock(return_value="FIN_BATCH_SQL"))
+
+    connection.execute.side_effect = ValueError("bad sql")
 
     batch_id = uuid4()
     ts = datetime(2026, 2, 15, tzinfo=timezone.utc)

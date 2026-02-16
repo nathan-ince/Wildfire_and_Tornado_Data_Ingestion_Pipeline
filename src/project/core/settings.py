@@ -40,7 +40,7 @@
 
 from pathlib import Path
 from pydantic import Field
-from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic_settings import BaseSettings
 from typing import Annotated
 from functools import lru_cache
 
@@ -56,13 +56,6 @@ class Settings(BaseSettings):
     app_log_file_name: Annotated[str, Field(alias="APP_LOG_FILE_NAME")]
     tests_log_file_name: Annotated[str, Field(alias="TESTS_LOG_FILE_NAME")]
 
-    model_config = SettingsConfigDict(
-        env_file=".env",
-        env_file_encoding="utf-8",
-        env_ignore_empty=True,
-        case_sensitive=True,
-        extra="ignore",
-    )
 
 @lru_cache
 def get_settings() -> Settings:

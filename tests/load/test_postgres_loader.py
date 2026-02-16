@@ -1,6 +1,6 @@
 import pandas as pd
-
-from project.load.postgres_loader import load_to_postgres
+from unittest.mock import MagicMock
+from project.load import postgres_loader
 
 
 class DummyConfig:
@@ -13,6 +13,8 @@ class DummyConfig:
 
 
 def test_load_to_postgres_valid(monkeypatch):
+    monkeypatch.setattr(postgres_loader, "get_engine", MagicMock(return_value=MagicMock()))
+
     calls = []
 
     def fake_to_sql(self, *, name, con, if_exists, index):
@@ -24,12 +26,14 @@ def test_load_to_postgres_valid(monkeypatch):
     df_accepted = pd.DataFrame({"a": [1]})
     df_rejected = pd.DataFrame({"a": [2]})
 
-    load_to_postgres(config, df_accepted, df_rejected)
+    postgres_loader.load_to_postgres(config, df_accepted, df_rejected)
 
     assert calls == ["accepted_table", "rejected_table"]
 
 
 def test_load_to_postgres_invalid(monkeypatch):
+    monkeypatch.setattr(postgres_loader, "get_engine", MagicMock(return_value=MagicMock()))
+
     def fake_to_sql(*args, **kwargs):
         raise AssertionError("to_sql should not be called for empty dfs")
 
@@ -39,4 +43,4 @@ def test_load_to_postgres_invalid(monkeypatch):
     df_accepted = pd.DataFrame({"a": []})
     df_rejected = pd.DataFrame({"a": []})
 
-    load_to_postgres(config, df_accepted, df_rejected)
+    postgres_loader.load_to_postgres(config, df_accepted, df_rejected)
