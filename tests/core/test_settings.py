@@ -24,11 +24,16 @@ def test_get_settings_valid(monkeypatch, tmp_path):
 
     assert s.db_host == "localhost"
     assert s.db_port == "5432"
+    assert s.db_name == "mydb"
+    assert s.db_username == "user"
+    assert s.db_password == "pass"
+    assert s.sql_statements_path == str(Path(tmp_path / "sql"))
     assert s.log_directory_path == Path(tmp_path / "logs")
     assert s.app_log_file_name == "app.log"
+    assert s.tests_log_file_name == "tests.log"
 
 
-def test_get_settings_invalid_missing_required(monkeypatch, tmp_path):
+def test_get_settings_invalid(monkeypatch, tmp_path):
     set_env(monkeypatch, tmp_path)
     monkeypatch.delenv("DB_HOST")
     settings_module.get_settings.cache_clear()
