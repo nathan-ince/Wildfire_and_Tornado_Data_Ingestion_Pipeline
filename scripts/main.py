@@ -31,6 +31,7 @@ if __name__ == "__main__":
         sys.exit(1)
 
     configure_logging()
+
     start_tornado_usa()
     start_wildfire_global()
 
