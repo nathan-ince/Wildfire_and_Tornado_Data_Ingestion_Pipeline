@@ -11,13 +11,13 @@ def test_validate_chain_applies_all_validators_and_collects_rejections():
     def keep_positive(df):
         accepted = df[df["x"] > 0]
         rejected = df[df["x"] <= 0].copy()
-        rejected["reason"] = "non-positive"
+        rejected["rejected_reason"] = "non-positive"
         return accepted, rejected
 
     def keep_less_than_two(df):
         accepted = df[df["x"] < 2]
         rejected = df[df["x"] >= 2].copy()
-        rejected["reason"] = "too-large"
+        rejected["rejected_reason"] = "too-large"
         return accepted, rejected
 
     accepted, rejected = validate_chain(df, (keep_positive, keep_less_than_two))

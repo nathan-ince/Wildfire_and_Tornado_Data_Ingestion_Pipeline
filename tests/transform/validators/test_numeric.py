@@ -27,7 +27,7 @@ def test_validate_non_negative(column, values, expected_valid, expected_invalid)
 
     assert accepted[column].tolist() == expected_valid
     assert rejected[column].tolist() == expected_invalid
-    assert rejected["reason"].eq(f"invalid value :: field name = {column}").all()
+    assert rejected["rejected_reason"].eq(f"invalid value :: field name = {column}").all()
 
 
 @pytest.mark.parametrize(
@@ -48,4 +48,4 @@ def test_validate_int_between(column, values, left, right, expected_valid, expec
 
     assert accepted[column].tolist() == expected_valid
     assert rejected[column].tolist() == expected_invalid
-    assert rejected["reason"].eq(f"invalid value :: field name = {column}").all()
+    assert rejected["rejected_reason"].eq(f"invalid value :: field name = {column}").all()

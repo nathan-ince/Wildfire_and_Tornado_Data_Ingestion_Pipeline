@@ -22,7 +22,7 @@ def test_validate_string_max_length(column, values, n, expected_valid, expected_
 
     assert to_py_list(accepted[column]) == to_py_list(expected_valid)
     assert to_py_list(rejected[column]) == to_py_list(expected_invalid)
-    assert rejected["reason"].eq(f"invalid value :: field name = {column}").all()
+    assert rejected["rejected_reason"].eq(f"invalid value :: field name = {column}").all()
 
 
 @pytest.mark.parametrize(
@@ -38,4 +38,4 @@ def test_validate_string_exact_length(column, values, n, expected_valid, expecte
 
     assert to_py_list(accepted[column]) == to_py_list(expected_valid)
     assert to_py_list(rejected[column]) == to_py_list(expected_invalid)
-    assert rejected["reason"].eq(f"invalid value :: field name = {column}").all()
+    assert rejected["rejected_reason"].eq(f"invalid value :: field name = {column}").all()

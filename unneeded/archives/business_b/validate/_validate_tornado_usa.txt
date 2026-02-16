@@ -39,7 +39,7 @@ def validate_tornado_usa(df):
 
         if errors:
             reject_row = row.to_dict()
-            reject_row["reason"] = "; ".join(errors)
+            reject_row["rejected_reason"] = "; ".join(errors)
             rejected_rows.append(reject_row)
         else:
             valid_rows.append(row.to_dict())

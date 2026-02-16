@@ -52,7 +52,7 @@ def test_validate_date_recovers_from_year_month_day():
     assert accepted.shape[0] == 1
     assert rejected.shape[0] == 1
     assert str(accepted.iloc[0]["date"])[:10] == "2019-05-10"
-    assert rejected["reason"].iloc[0] == "invalid value :: date"
+    assert rejected["rejected_reason"].iloc[0] == "invalid value :: date"
 
 
 def test_validate_state_strips_and_uppercasses():
@@ -62,7 +62,7 @@ def test_validate_state_strips_and_uppercasses():
 
     assert accepted["state"].tolist() == ["NC", "CA"]
     assert rejected.shape[0] == 1
-    assert "state" in rejected["reason"].iloc[0]
+    assert "state" in rejected["rejected_reason"].iloc[0]
 
 
 def test_validate_year_month_day_date_combination():
@@ -77,4 +77,4 @@ def test_validate_year_month_day_date_combination():
 
     assert accepted.shape[0] == 1
     assert rejected.shape[0] == 1
-    assert rejected["reason"].iloc[0] == "invalid combination :: year/month/day/date"
+    assert rejected["rejected_reason"].iloc[0] == "invalid combination :: year/month/day/date"

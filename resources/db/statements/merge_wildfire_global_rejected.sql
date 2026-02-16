@@ -1,5 +1,5 @@
-MERGE INTO wildfire_global_accepted_final AS final
-USING wildfire_global_accepted_stage AS stage
+MERGE INTO wildfire_global_rejected_final AS final
+USING wildfire_global_rejected_stage AS stage
 ON (
   final.country = stage.country AND
   final.year = stage.year AND

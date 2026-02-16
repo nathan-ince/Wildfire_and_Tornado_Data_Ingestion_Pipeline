@@ -23,7 +23,7 @@ def test_validate_month_max_length_and_title():
 
     assert accepted["month"].tolist() == ["January", "February"]
     assert rejected.shape[0] == 1
-    assert "month" in rejected["reason"].iloc[0]
+    assert "month" in rejected["rejected_reason"].iloc[0]
 
 
 def test_validate_region_strips_and_titles():

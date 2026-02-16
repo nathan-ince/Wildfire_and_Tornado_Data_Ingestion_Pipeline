@@ -4,7 +4,6 @@ import pandas as pd
 from project.models.config import Config
 from project.transform.columns import rename_columns
 from project.transform.chain import validate_chain
-from project.transform.dedupe import dedupe_keep_first
 
 from project.pipelines.wildfire_global import validators
 
@@ -32,11 +31,12 @@ def transform(config: Config, source_index: int, df: pd.DataFrame) -> tuple[pd.D
         ),
     )
 
+    # dedupe
     df_accepted = df_accepted[~df_accepted.duplicated(keep="first")]
 
     # batch process id has not been been appended to either dataframe yet
     df_accepted_hash_series = compute_record_hash_series_exclude(df_accepted)
-    df_rejected_hash_series = compute_record_hash_series_exclude(df_rejected, ["reason"])
+    df_rejected_hash_series = compute_record_hash_series_exclude(df_rejected, ["rejected_reason"])
 
     df_accepted = df_accepted.copy()
     df_rejected = df_rejected.copy()

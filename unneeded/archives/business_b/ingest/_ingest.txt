@@ -19,7 +19,7 @@ def ingest(config_path: str) -> None:
         # source
         source = config.sources[source_index]
         logger.info("Ingesting \"%s\"", source.path)
-        all_rejected = pd.DataFrame(columns=[*source.columns.values(), "reason"])
+        all_rejected = pd.DataFrame(columns=[*source.columns.values(), "rejected_reason"])
 
         # load
         df = load_external_data(config, source_index)

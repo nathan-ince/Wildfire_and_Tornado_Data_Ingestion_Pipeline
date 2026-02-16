@@ -9,7 +9,14 @@ def _valid_base_config():
         "name": "my-pipeline",
         "version": "1.0",
         "target": {
-            "tables": {"accepted": "accepted_tbl", "rejected": "rejected_tbl"},
+            "tables": {
+                "accepted_final": "accepted_tbl_final",
+                "accepted_stage": "accepted_tbl_stage",
+                "rejected_final": "rejected_tbl_final",
+                "rejected_stage": "rejected_tbl_stage"
+            },
+            "merge_accepted": "ma.sql",
+            "merge_rejected": "mr.sql",
             "fields": [
                 {"name": "a", "type": "int64", "nullable": False, "unique": False},
                 {"name": "b", "type": "string", "nullable": True, "unique": False},

@@ -43,4 +43,4 @@ def test_validate_notna(column, values, expected_valid, expected_invalid):
 
     assert to_py_list(accepted[column]) == to_py_list(expected_valid)
     assert to_py_list(rejected[column]) == to_py_list(expected_invalid)
-    assert rejected["reason"].eq(f"invalid value :: field name = {column}").all()
+    assert rejected["rejected_reason"].eq(f"invalid value :: field name = {column}").all()

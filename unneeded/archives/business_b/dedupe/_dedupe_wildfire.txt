@@ -4,7 +4,7 @@ def dedupe_wildfire(df):
 
     accepted = df[~duplicates].copy()
     rejected = df[duplicates].copy()
-    rejected["reason"] = "Duplicate record"
+    rejected["rejected_reason"] = "Duplicate record"
 
     return accepted, rejected
 

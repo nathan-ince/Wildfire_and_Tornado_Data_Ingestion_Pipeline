@@ -9,8 +9,15 @@ def test_rename_columns_selects_and_renames():
         "name": "test",
         "version": "0.0",
         "target": {
-            "tables": {"accepted": "accepted", "rejected": "rejected"},
-            "fields": [],
+            "tables": {
+                "accepted_final": "accepted_tbl_final",
+                "accepted_stage": "accepted_tbl_stage",
+                "rejected_final": "rejected_tbl_final",
+                "rejected_stage": "rejected_tbl_stage"
+            },
+            "merge_accepted": "ma.sql",
+            "merge_rejected": "mr.sql",
+            "fields": []
         },
         "sources": [
             {
@@ -21,9 +28,9 @@ def test_rename_columns_selects_and_renames():
                 "mapping": {
                     "Year": {"name": "year", "type": "int"},
                     "State": {"name": "state", "type": "string"},
-                },
+                }
             }
-        ],
+        ]
     })
 
     df = pd.DataFrame({
