@@ -15,7 +15,7 @@ def load_to_postgres(config: Config, df_accepted: DataFrame, df_rejected: DataFr
     df_accepted.to_sql(
       name=config.target.tables.accepted,
       con=get_engine(),
-      if_exists="delete_rows",
+      if_exists="replace",
       index=False,
     )
     logger.info("loaded accepted records into postgres")
@@ -30,7 +30,7 @@ def load_to_postgres(config: Config, df_accepted: DataFrame, df_rejected: DataFr
     df_rejected.to_sql(
       name=config.target.tables.rejected,
       con=get_engine(),
-      if_exists="delete_rows",
+      if_exists="replace",
       index=False,
     )
     logger.info("loaded rejected records into postgres")
