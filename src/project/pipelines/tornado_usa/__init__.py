@@ -1,1 +1,3 @@
-from ._index import *
+from .pipeline import start
+
+__all__ = ["start"]

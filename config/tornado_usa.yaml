@@ -2,8 +2,12 @@ name: tornado_usa
 version: 1.0.0
 target:
   tables:
-    accepted: tornado_usa_accepted
-    rejected: tornado_usa_rejected
+    accepted_final: tornado_usa_accepted_final
+    accepted_stage: tornado_usa_accepted_stage
+    rejected_final: tornado_usa_rejected_final
+    rejected_stage: tornado_usa_rejected_stage
+  merge_accepted: "merge_tornado_usa_accepted.sql"
+  merge_rejected: "merge_tornado_usa_rejected.sql"
   fields:
     - name: year
       type: smallint
