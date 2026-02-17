@@ -1,46 +1,35 @@
 import pandas as pd
+from unittest.mock import MagicMock
 
-from project.models.config import Config
 from project.transform.columns import rename_columns
 
 
-def test_rename_columns_selects_and_renames():
-    config = Config.model_validate({
-        "name": "test",
-        "version": "0.0",
-        "target": {
-            "tables": {
-                "accepted_final": "accepted_tbl_final",
-                "accepted_stage": "accepted_tbl_stage",
-                "rejected_final": "rejected_tbl_final",
-                "rejected_stage": "rejected_tbl_stage"
-            },
-            "merge_accepted": "ma.sql",
-            "merge_rejected": "mr.sql",
-            "fields": []
-        },
-        "sources": [
-            {
-                "name": "tornado_usa",
-                "path": "unused.json",
-                "format": "json",
-                "options": None,
-                "mapping": {
-                    "Year": {"name": "year", "type": "int"},
-                    "State": {"name": "state", "type": "string"},
-                }
-            }
-        ]
-    })
+def test_rename_columns():
+    config = MagicMock()
 
-    df = pd.DataFrame({
-        "Year": [2020],
-        "State": ["NC"],
-        "Extra": ["ignore me"], 
-    })
+    year_field = MagicMock()
+    year_field.name = "year"
 
-    out = rename_columns(config, source_index=0, df=df)
+    state_field = MagicMock()
+    state_field.name = "state"
 
-    assert list(out.columns) == ["year", "state"]
-    assert out["year"].tolist() == [2020]
-    assert out["state"].tolist() == ["NC"]
+    source = MagicMock()
+    source.mapping = {
+        "Year": year_field,
+        "State": state_field,
+    }
+    config.sources = [source]
+
+    df = pd.DataFrame(
+        {
+            "Year": [2020],
+            "State": ["NC"],
+            "Extra": ["ignore me"],
+        }
+    )
+
+    renamed_df = rename_columns(config, source_index=0, df=df)
+
+    assert list(renamed_df.columns) == ["year", "state"]
+    assert renamed_df["year"].tolist() == [2020]
+    assert renamed_df["state"].tolist() == ["NC"]

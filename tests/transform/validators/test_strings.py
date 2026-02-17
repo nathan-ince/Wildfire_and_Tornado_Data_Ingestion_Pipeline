@@ -1,5 +1,4 @@
 import pandas as pd
-import pytest
 
 from project.transform.validators.strings import (
     validate_string_max_length,
