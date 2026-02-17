@@ -1,15 +1,19 @@
 import project.read.read_sql as read_sql
-from types import SimpleNamespace
+from unittest.mock import MagicMock
 from sqlalchemy.sql.elements import TextClause
 
-def test_read_sql_statement_returns_text_clause(tmp_path, monkeypatch):
+
+def test_read_sql_statement(tmp_path, monkeypatch):
     sql_dir = tmp_path / "sql"
     sql_dir.mkdir()
     (sql_dir / "test.sql").write_text("SELECT 1;")
 
-    monkeypatch.setattr(read_sql, "get_settings", lambda: SimpleNamespace(sql_statements_path=str(sql_dir)))
+    fake_settings = MagicMock()
+    fake_settings.sql_statements_path = sql_dir
 
+    monkeypatch.setattr(read_sql, "get_settings", lambda: fake_settings)
     read_sql.read_sql_statement.cache_clear()
+
     result = read_sql.read_sql_statement("test.sql")
 
     assert isinstance(result, TextClause)
