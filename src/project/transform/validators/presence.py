@@ -11,8 +11,6 @@ import pandas as pd
 
 def validate_notna(df: pd.DataFrame, name: str) -> tuple[pd.DataFrame, pd.DataFrame]:
     valid_mask = df[name].notna()
-
-    # ✅ force pure bool mask
     valid_mask = valid_mask.fillna(False).astype(bool)
 
     df_accepted = df.loc[valid_mask]

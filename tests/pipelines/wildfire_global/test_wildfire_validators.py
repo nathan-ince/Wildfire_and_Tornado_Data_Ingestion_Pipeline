@@ -26,5 +26,5 @@ def test_validate_handles_missing_values():
 
     accepted, rejected = validators.validate_cause(df)
 
-    assert accepted["cause"].tolist() == ["lightning", "Unknown", "Human"]
+    assert accepted["cause"].tolist() == ["Nathan", "Unknown", "Jack"]
     assert rejected.empty

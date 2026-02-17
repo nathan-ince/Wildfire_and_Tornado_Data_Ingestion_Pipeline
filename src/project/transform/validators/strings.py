@@ -25,7 +25,7 @@
 import pandas as pd
 
 def validate_string_max_length(df: pd.DataFrame, name: str, n: int) -> tuple[pd.DataFrame, pd.DataFrame]:
-    s = df[name].astype("string")          # handles pd.NA cleanly
+    s = df[name].astype("string") 
     s = s.str.strip()
     length = s.str.len()
 
