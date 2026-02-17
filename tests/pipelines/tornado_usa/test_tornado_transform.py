@@ -1,26 +1,20 @@
-# import pandas as pd
-# import project.pipelines.tornado_usa.transform as tmod
+import pandas as pd
+from unittest.mock import MagicMock
+
+import project.pipelines.tornado_usa.transform as tornado_transform_module
 
 
-# def test_transform_moves_dupes_into_rejected(monkeypatch):
+def test_transform_valid():
+    tornado_transform_module.rename_columns = lambda config, source_index, df: df
 
-#     df_in = pd.DataFrame({"x": [1, 1, 2]})
+    accepted = pd.DataFrame({"id": [1, 1, 2]})
+    rejected = pd.DataFrame({"id": [99], "rejected_reason": ["bad"]})
+    tornado_transform_module.validate_chain = lambda df, funcs: (accepted, rejected)
 
+    tornado_transform_module.compute_record_hash_series_exclude = (lambda df, exclude=None: pd.Series(["H"] * len(df), index=df.index))
 
-#     monkeypatch.setattr(tmod, "rename_columns", lambda config, source_index, df: df)
+    out_accepted, out_rejected = tornado_transform_module.transform(config=MagicMock(), source_index=0, df=pd.DataFrame({"x": [0]}))
 
-
-#     df_accepted = pd.DataFrame({"id": [1, 1, 2]})
-#     df_rejected = pd.DataFrame({"id": [99], "rejected_reason": ["bad"]})
-#     monkeypatch.setattr(tmod, "validate_chain", lambda df, funcs: (df_accepted, df_rejected))
-
-
-#     df_accepted_deduped = pd.DataFrame({"id": [1, 2]})
-#     df_dupes = pd.DataFrame({"id": [1], "rejected_reason": ["duplicate"]})
-#     monkeypatch.setattr(tmod, "dedupe_keep_first", lambda df: (df_accepted_deduped, df_dupes))
-
-#     out_accepted, out_rejected = tmod.transform(config=None, source_index=0, df=df_in)
-
-#     assert out_accepted.reset_index(drop=True).equals(df_accepted_deduped.reset_index(drop=True))
-#     assert len(out_rejected) == 2  
-#     assert sorted(out_rejected["id"].tolist()) == [1, 99]
+    assert out_accepted["id"].tolist() == [2]
+    assert "content_hash" in out_accepted.columns
+    assert "content_hash" in out_rejected.columns

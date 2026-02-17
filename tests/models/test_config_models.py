@@ -65,7 +65,7 @@ def test_config_csv_and_json():
         ("csv", {}),            # csv missing delimiter
     ],
 )
-def test_source_validation_errors(format, options):
+def test_config_invalid(format, options):
     data = base_config()
     data["sources"] = [
         {

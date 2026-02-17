@@ -1,27 +1,20 @@
+import pandas as pd
+from unittest.mock import MagicMock
 
-# import pandas as pd
-
-# import project.pipelines.wildfire_global.transform as tmod
-
-
-# def test_transform_moves_dupes_into_rejected(monkeypatch):
-#     df_in = pd.DataFrame({"x": [1, 1, 2]})
+import project.pipelines.wildfire_global.transform as wildfire_transform_module
 
 
-#     monkeypatch.setattr(tmod, "rename_columns", lambda config, source_index, df: df)
+def test_transform_valid():
+    wildfire_transform_module.rename_columns = lambda config, source_index, df: df
 
+    accepted = pd.DataFrame({"id": [1, 1, 2]})
+    rejected = pd.DataFrame({"id": [99], "rejected_reason": ["bad"]})
+    wildfire_transform_module.validate_chain = lambda df, funcs: (accepted, rejected)
 
-#     df_accepted = pd.DataFrame({"id": [1, 1, 2]})
-#     df_rejected = pd.DataFrame({"id": [99], "rejected_reason": ["bad"]})
-#     monkeypatch.setattr(tmod, "validate_chain", lambda df, funcs: (df_accepted, df_rejected))
+    wildfire_transform_module.compute_record_hash_series_exclude = (lambda df, exclude=None: pd.Series(["H"] * len(df), index=df.index))
 
+    out_accepted, out_rejected = wildfire_transform_module.transform(config=MagicMock(), source_index=0, df=pd.DataFrame({"x": [0]}))
 
-#     df_accepted_deduped = pd.DataFrame({"id": [1, 2]})
-#     df_dupes = pd.DataFrame({"id": [1], "rejected_reason": ["duplicate"]})
-#     monkeypatch.setattr(tmod, "dedupe_keep_first", lambda df: (df_accepted_deduped, df_dupes))
-
-#     out_accepted, out_rejected = tmod.transform(config=None, source_index=0, df=df_in)
-
-#     assert out_accepted.reset_index(drop=True).equals(df_accepted_deduped.reset_index(drop=True))
-#     assert len(out_rejected) == 2 
-#     assert sorted(out_rejected["id"].tolist()) == [1, 99]
+    assert out_accepted["id"].tolist() == [1, 2]
+    assert "content_hash" in out_accepted.columns
+    assert "content_hash" in out_rejected.columns
