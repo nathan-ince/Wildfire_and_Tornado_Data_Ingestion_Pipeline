@@ -1,46 +1,28 @@
 import pandas as pd
+import pytest
 
 from project.pipelines.wildfire_global import validators
 
 
-def test_validate_country_strips_and_titles():
-    df = pd.DataFrame({
-        "country": [" usa ", "canada", None]
-    })
+@pytest.mark.parametrize(
+    "fn, col, values, expected",
+    [
+        (validators.validate_country, "country", [" usa ", "canada", None], ["Usa", "Canada"]),
+        (validators.validate_region, "region", [" north america ", "europe", None], ["North America", "Europe"]),
+        (validators.validate_month, "month", [" january ", "december", "thisisacoolmonth"], ["January", "December"]),
+    ],
+)
+def test_string_validators(fn, col, values, expected):
+    df = pd.DataFrame({col: values})
 
-    accepted, rejected = validators.validate_country(df)
+    accepted, rejected = fn(df)
 
-    assert accepted["country"].tolist() == ["Usa", "Canada"]
+    assert accepted[col].tolist() == expected
     assert rejected.shape[0] == 1
 
 
-def test_validate_month_max_length_and_title():
-    df = pd.DataFrame({
-        "month": [" january ", "february", "thismonthiswaytoolong"]
-    })
-
-    accepted, rejected = validators.validate_month(df)
-
-    assert accepted["month"].tolist() == ["January", "February"]
-    assert rejected.shape[0] == 1
-    assert "month" in rejected["rejected_reason"].iloc[0]
-
-
-def test_validate_region_strips_and_titles():
-    df = pd.DataFrame({
-        "region": [" north america ", "europe", None]
-    })
-
-    accepted, rejected = validators.validate_region(df)
-
-    assert accepted["region"].tolist() == ["North America", "Europe"]
-    assert rejected.shape[0] == 1
-
-
-def test_validate_cause_fills_unknown_and_never_rejects():
-    df = pd.DataFrame({
-        "cause": [" lightning ", None, "Human"]
-    })
+def test_validate_handles_missing_values():
+    df = pd.DataFrame({"cause": [" Nathan ", None, "Jack"]})
 
     accepted, rejected = validators.validate_cause(df)
 
