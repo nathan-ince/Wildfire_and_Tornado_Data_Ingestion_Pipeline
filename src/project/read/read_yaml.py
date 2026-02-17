@@ -21,10 +21,6 @@ def read_from_yaml(path: str, log: bool = False):
     error = ReadFromYamlError(FAILURE_MESSAGE, cause=type(err).__name__, path=path)
     if log: logger.error(error.message, extra=error.kwargs)
     raise error from err
-  # except Exception as err:
-  #   error = ReadFromYamlError(FAILURE_MESSAGE, cause=type(err).__name__, path=path)
-  #   if log: logger.error(error.message, extra=error.kwargs)
-  #   raise error from err
   except yaml.YAMLError as err:
     error = ReadFromYamlError(FAILURE_MESSAGE, cause=type(err).__name__, path=path)
     if log: logger.error(error.message, extra=error.kwargs)
