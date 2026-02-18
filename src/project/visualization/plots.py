@@ -1,5 +1,7 @@
 import matplotlib.pyplot as plt
-from project.visualization.queries import tornado_counts_by_state, wildfire_counts_by_state, tornado_most_events_by_state, wildfire_most_events_by_state, tornado_most_events_by_month, tornado_average_fatalities_by_magnitude
+from project.visualization.queries import tornado_counts_by_state, wildfire_counts_by_state, tornado_most_events_by_state, tornado_most_events_by_month, tornado_average_fatalities_by_magnitude, wildfire_counts_by_cause
+import calendar
+
 
 STATE_NAME_TO_ABBR = {
     "California": "CA",
@@ -33,32 +35,11 @@ def plot_tornado_and_wildfire_per_state(engine):
     plt.show()
 
 
-def plot_tornado_most_events_by_state(engine):
-    df = tornado_most_events_by_state(engine)
-
-    plt.bar(df["state"], df["tornado_count"])
-
-    plt.xlabel("State")
-    plt.ylabel("Number of Tornado Events") 
-    plt.title("Top 3 States by Tornado Events")
-    plt.show()
-
-
-def plot_wildfire_most_events_by_state(engine):
-    df = wildfire_most_events_by_state(engine)
-
-    plt.bar(df["state"], df["wildfire_count"])
-
-    plt.xlabel("State")
-    plt.ylabel("Number of Tornado Events") 
-    plt.title("Top 3 States by Wildfire Events")
-    plt.show()
-
-
 def plot_tornado_most_events_by_month(engine):
     df = tornado_most_events_by_month(engine)
+    df["month_name"] = df["month"].apply(lambda change_month: calendar.month_name[int(change_month)])
 
-    plt.bar(df["month"], df["tornado_count"])
+    plt.bar(df["month_name"], df["tornado_count"])
 
     plt.xlabel("Month")
     plt.ylabel("Number of Tornado Events") 
@@ -74,4 +55,15 @@ def plot_tornado_average_fatalities_by_magnitude(engine):
     plt.xlabel("Tornado Magnitude")
     plt.ylabel("Average Fatalities") 
     plt.title("Average Tornado Fatalities by Magnitude")
+    plt.show()
+
+
+def plot_wildfire_counts_by_cause(engine):
+    df = wildfire_counts_by_cause(engine)
+
+    plt.bar(df["cause"], df["wildfire_count"])
+
+    plt.xlabel("Wildfire Cause")
+    plt.ylabel("Number of Wildfires") 
+    plt.title("Wildfire Counts by Cause")
     plt.show()
