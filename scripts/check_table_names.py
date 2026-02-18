@@ -1,18 +1,22 @@
 import logging
 
-from psycopg2 import OperationalError
+# from psycopg2 import OperationalError
 from sqlalchemy import inspect
 from sqlalchemy.exc import MultipleResultsFound, NoResultFound, SQLAlchemyError
 from sqlalchemy.sql import text
 
-from project.core import dbengine, configure_logging
+from dotenv import load_dotenv
+load_dotenv()
+
+from project.core import get_engine, configure_logging
 
 logger = logging.getLogger(__name__)
-inspector = inspect(dbengine)
+s = get_engine()
+inspector = inspect(s)
 
 def check_table_names():
   select_version_statement = text("SELECT version();")
-  with dbengine.connect() as db:
+  with s.connect() as db:
     try:
       result = db.execute(select_version_statement)
       version = result.scalar_one()

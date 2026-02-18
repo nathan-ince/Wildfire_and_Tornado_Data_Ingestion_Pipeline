@@ -1,16 +1,3 @@
-# import logging
-
-# from project.core import configure_logging
-# from project.pipelines.tornado_usa.pipeline import start as start_tornado_usa
-# from project.pipelines.wildfire_global.pipeline import start as start_wildfire_global
-
-# logger = logging.getLogger(__name__)
-
-# if __name__ == "__main__":
-#   configure_logging()
-#   start_tornado_usa()
-#   start_wildfire_global()
-
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -24,10 +11,9 @@ from project.core import configure_logging
 from project.core.db import get_engine
 from project.pipelines.tornado_usa.pipeline import start as start_tornado_usa
 from project.pipelines.wildfire_global.pipeline import start as start_wildfire_global
-from project.visualization.plots import plot_tornado_and_wildfire_per_state
+from project.visualization.plots import plot_tornado_and_wildfire_per_state, plot_tornado_most_events_by_state, plot_wildfire_most_events_by_state, plot_tornado_most_events_by_month, plot_tornado_average_fatalities_by_magnitude
 
 if __name__ == "__main__":
-
     try:
         get_settings()
     except ValidationError as e:
@@ -41,5 +27,9 @@ if __name__ == "__main__":
     start_tornado_usa()
     start_wildfire_global()
 
-    engine = get_engine()
-    plot_tornado_and_wildfire_per_state(engine)
+    # engine = get_engine()
+    # plot_tornado_and_wildfire_per_state(engine)
+    # plot_tornado_most_events_by_state(engine)
+    # plot_wildfire_most_events_by_state(engine)
+    # plot_tornado_most_events_by_month(engine)
+    # plot_tornado_average_fatalities_by_magnitude(engine)
