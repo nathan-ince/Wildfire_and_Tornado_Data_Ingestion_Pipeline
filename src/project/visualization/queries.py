@@ -26,8 +26,7 @@ def tornado_most_events_by_month(engine: Engine) -> pd.DataFrame:
         SELECT month, COUNT(*) AS tornado_count
         FROM tornado_usa_accepted_final
         GROUP BY month
-        ORDER BY tornado_count DESC
-        LIMIT 3
+        ORDER BY month ASC
     """)
     return pd.read_sql(query, engine)
 

@@ -39,18 +39,21 @@ def plot_tornado_most_events_by_month(engine):
     df = tornado_most_events_by_month(engine)
     df["month_name"] = df["month"].apply(lambda change_month: calendar.month_name[int(change_month)])
 
-    plt.bar(df["month_name"], df["tornado_count"])
+    plt.figure(figsize=(12, 8))
 
-    plt.xlabel("Month")
+    plt.plot(df["month_name"], df["tornado_count"], marker="o", color="darkgray")
+
     plt.ylabel("Number of Tornado Events") 
-    plt.title("Top 3 Months by Tornado Events")
+    plt.title("Tornado Events by Month")
     plt.show()
 
 
 def plot_tornado_average_fatalities_by_magnitude(engine):
     df = tornado_average_fatalities_by_magnitude(engine)
 
-    plt.bar(df["magnitude"], df["average_fatalities"])
+    plt.figure(figsize=(8, 5))
+
+    plt.bar(df["magnitude"], df["average_fatalities"], color="darkred")
 
     plt.xlabel("Tornado Magnitude")
     plt.ylabel("Average Fatalities") 
@@ -61,7 +64,9 @@ def plot_tornado_average_fatalities_by_magnitude(engine):
 def plot_wildfire_counts_by_cause(engine):
     df = wildfire_counts_by_cause(engine)
 
-    plt.bar(df["cause"], df["wildfire_count"])
+    plt.figure(figsize=(8, 5))
+
+    plt.bar(df["cause"], df["wildfire_count"], color="darkorange")
 
     plt.xlabel("Wildfire Cause")
     plt.ylabel("Number of Wildfires") 
