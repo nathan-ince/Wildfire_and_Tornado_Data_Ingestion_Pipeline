@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-from project.visualization.queries import tornado_counts_by_state, wildfire_counts_by_state, tornado_most_events_by_state, tornado_most_events_by_month, tornado_average_fatalities_by_magnitude, wildfire_counts_by_cause
+from project.visualization.queries import tornado_counts_by_state, wildfire_counts_by_state, tornado_most_events_by_month, tornado_average_fatalities_by_magnitude, wildfire_counts_by_cause
 import calendar
 
 

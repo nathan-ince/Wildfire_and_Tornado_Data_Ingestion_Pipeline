@@ -21,17 +21,6 @@ def wildfire_counts_by_state(engine: Engine) -> pd.DataFrame:
     return pd.read_sql(query, engine)
 
 
-def tornado_most_events_by_state(engine: Engine) -> pd.DataFrame:
-    query = text("""
-        SELECT state, COUNT(*) AS tornado_count
-        FROM tornado_usa_accepted_final
-        GROUP BY state
-        ORDER BY tornado_count DESC
-        LIMIT 3
-    """)
-    return pd.read_sql(query, engine)
-
-
 def tornado_most_events_by_month(engine: Engine) -> pd.DataFrame:
     query = text("""
         SELECT month, COUNT(*) AS tornado_count
