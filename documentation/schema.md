@@ -92,27 +92,10 @@ We use the stage table and then merge it into the final table so that Postgres w
 
 When we merge the records from the stage table into the final table, there are three scenarios:
 - the functional key is matched and the content hash is matched
+  - leave existing record alone / do nothing
 - the functional key is matched and the content hash is not matched
+  - update existing record
 - the functional key is not matched
-
----
-
-### **Functional Key Matches + Content Hash Matches**
-
-In this scenario, nothing will happens, so the record in the final table will stay the same.
-- no fields will be updated
-
----
-
-### **Functional Key Matches + Content Hash Does Not Match**
-
-In this scenario, the record from the stage table will be used to update the corresponding record in the final table
-- all fields will be updated, whether or not all of them are different
-
----
-
-### **Functional Key Does Not Match**
-
-In this scenario, the record from the stage table will be inserted into the final table.
+  - insert new record
 
 ---
