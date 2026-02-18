@@ -2,7 +2,7 @@ import logging
 
 from pandas import DataFrame
 
-from project.core import get_settings, get_engine
+from project.core import get_engine
 from project.helpers.errors import AbstractError
 from project.read.read_sql import read_sql_statement
 
@@ -30,17 +30,6 @@ REJECTED_STAGE_NAME = "rejected stage"
 logger = logging.getLogger(__name__)
 
 def load_into_accepted_stage(table_name: str, data: DataFrame) -> None:
-  """
-  ### **Returns**
-
-  `None`
-
-  ---
-
-  ### **Throws**
-
-  `LoadAcceptedStageError`
-  """
   kwargs = { "table_name": table_name, "record_count": data.shape[0] }
   if data.empty is True:
     logger.info(buildNoDataMessage(ACCEPTED_STAGE_NAME), extra=kwargs)
@@ -55,17 +44,6 @@ def load_into_accepted_stage(table_name: str, data: DataFrame) -> None:
     raise error from e
 
 def load_into_rejected_stage(table_name: str, data: DataFrame) -> None:
-  """
-  ### **Returns**
-
-  `None`
-
-  ---
-
-  ### **Throws**
-
-  `LoadRejectedStageError`
-  """
   kwargs = { "table_name": table_name, "record_count": data.shape[0] }
   if data.empty is True:
     logger.info(buildNoDataMessage(REJECTED_STAGE_NAME), extra=kwargs)
