@@ -4,14 +4,14 @@ This is our first data engineering project.
 
 ---
 
-### **Contributors**
+## **Contributors**
 
 - Jack
 - Nathan
 
 ---
 
-### **Timeline**
+## **Timeline**
 
 **Start:** `???`
 
@@ -19,7 +19,7 @@ This is our first data engineering project.
 
 ---
 
-### **Project Requirements**
+## **Project Requirements**
 
 - build a data ingestion pipeline written in `Python`
 - use configuration files to define data sources and settings
@@ -40,7 +40,7 @@ This is our first data engineering project.
 
 ---
 
-### **Presentation Requirements**
+## **Presentation Requirements**
 
 - create a slide deck for the project
 - provide a live demonstration of the project
@@ -48,7 +48,7 @@ This is our first data engineering project.
 
 ---
 
-### **Table of Contents**
+## **Table of Contents**
 
 - [Environment](./extra/documentation/environment.md)
 - [Logging](./extra/documentation/logging.md)
@@ -57,7 +57,7 @@ This is our first data engineering project.
 
 ---
 
-### **ERD**
+## **ERD**
 
 ![ERD](./extra/assets/revature_project_01_erd.drawio.png)
 

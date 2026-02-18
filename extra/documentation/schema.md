@@ -4,7 +4,7 @@ This note contains information about our database schema.
 
 ---
 
-### **Data Tables**
+## **Data Tables**
 
 We process two datasets in this project.
 
@@ -16,7 +16,7 @@ For each dataset, we have four tables.
 
 ---
 
-### **General Data Table Information**
+## **General Data Table Information**
 
 The accepted tables are for accepted records.
 
@@ -26,7 +26,7 @@ The stage tables are for staging records, before merging into the final tables.
 
 ---
 
-### **Specific Data Table Information (accepted)**
+## **Specific Data Table Information (accepted)**
 
 The accepted stage table consists of:
 - all data fields
@@ -41,7 +41,7 @@ The accepted final table consists of:
 
 ---
 
-### **Specific Table Information (rejected)**
+## **Specific Table Information (rejected)**
 
 The rejected stage table consists of:
 - all data fields
@@ -58,7 +58,7 @@ The rejected final table consists of:
 
 ---
 
-### **Additional Tables (meta)**
+## **Additional Tables (meta)**
 
 We have two tables that are shared by all the datasets in our project.
 - main_process
@@ -72,13 +72,13 @@ These tables are used to track each main process we invoke, which sources/batche
 
 ---
 
-### **Honorable Mention**
+## **Honorable Mention**
 
 I'm not sure if "functional key" is a real term.
 
 ---
 
-### **Surrogate Key and Functional Key**
+## **Surrogate Key and Functional Key**
 
 For each dataset and respective set of tables, since there are no individual candidate keys:
 - Our primary key is a surrogate key, which is an auto-generated integer.

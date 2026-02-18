@@ -4,7 +4,7 @@ This note contains information about our environment variables and settings conf
 
 ---
 
-### **Environment Variables**
+## **Environment Variables**
 
 We have a file called `.env`...
 - where we define our project-specific environment variables.
@@ -16,7 +16,7 @@ We have a file called `.env.example` that...
 
 ---
 
-### **Settings Configuration**
+## **Settings Configuration**
 
 At the beginning of each of our scripts, we process our environment variables.
 
