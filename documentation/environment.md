@@ -6,13 +6,13 @@ This note contains information about our environment variables and settings conf
 
 ### **Environment Variables**
 
-We have our environment variables defined in a file call `.env`.
-- This file is listed in `.gitignore` because it contains sensitive information.
+We have a file called `.env`...
+- where we define our project-specific environment variables.
+- that is included `.gitignore` because it contains sensitive information.
 
 We have a file called `.env.example` that...
-- is not in `.gitignore`.
-- serves as a template for `.env`.
 - basically lists the names of all the environment variables we need to define in `.env` and potentially their values if those values aren't sensitive.
+- is not included in `.gitignore` because serves as a template for `.env`, which is included in `.gitignore`.
 
 ---
 
