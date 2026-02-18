@@ -24,8 +24,8 @@ if __name__ == "__main__":
 
     configure_logging()
 
-    #start_tornado_usa()
-    #start_wildfire_global()
+    start_tornado_usa()
+    start_wildfire_global()
 
     engine = get_engine()
     plot_tornado_and_wildfire_per_state(engine)
