@@ -1,10 +1,10 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
-from project.visualization.queries import tornado_most_events_by_month, tornado_average_fatalities_by_magnitude, wildfire_counts_by_cause
+from project.visualization.queries import tornado_most_events_by_month, tornado_average_fatalities_by_magnitude, wildfire_counts_by_cause, wildfire_count_by_month, tornado_count_by_month
 import calendar
+from sqlalchemy import Engine
 
-
-def plot_tornado_most_events_per_month_and_year(engine):
+def plot_tornado_most_events_per_month_and_year(engine: Engine):
     df_tornado = tornado_most_events_by_month(engine)
 
     df_tornado["month_abbr"] = df_tornado["month"].apply(lambda m: calendar.month_abbr[int(m)])
@@ -21,7 +21,7 @@ def plot_tornado_most_events_per_month_and_year(engine):
     plt.show()
 
 
-def plot_tornado_average_fatalities_by_magnitude(engine):
+def plot_tornado_average_fatalities_by_magnitude(engine: Engine):
     df = tornado_average_fatalities_by_magnitude(engine)
 
     fatality_colors = {
@@ -45,7 +45,7 @@ def plot_tornado_average_fatalities_by_magnitude(engine):
     plt.show()
 
 
-def plot_wildfire_counts_by_cause(engine):
+def plot_wildfire_counts_by_cause(engine: Engine):
     df = wildfire_counts_by_cause(engine)
 
     cause_colors = {
@@ -66,3 +66,7 @@ def plot_wildfire_counts_by_cause(engine):
     plt.title("Wildfire Counts by Cause")
     plt.tight_layout()
     plt.show()
+
+def plot_counts_by_month(engine: Engine):
+    df_wildfire = wildfire_count_by_month(engine)
+    df_tornado = tornado_count_by_month
