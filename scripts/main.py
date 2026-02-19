@@ -24,6 +24,7 @@ if __name__ == "__main__":
 
     configure_logging()
 
+<<<<<<< HEAD
     #start_tornado_usa()
     #start_wildfire_global()
 
@@ -33,3 +34,13 @@ if __name__ == "__main__":
     #plot_tornado_most_events_by_month(engine)
     #plot_tornado_average_fatalities_by_magnitude(engine)
     #plot_wildfire_counts_by_cause(engine)
+=======
+    start_tornado_usa()
+    start_wildfire_global()
+
+    # engine = get_engine()
+    # plot_tornado_and_wildfire_per_state(engine)
+    # plot_tornado_most_events_by_month(engine)
+    # plot_tornado_average_fatalities_by_magnitude(engine)
+    # plot_wildfire_counts_by_cause(engine)
+>>>>>>> 14da497bb712412e44a14aa4eaf03d11853468c0

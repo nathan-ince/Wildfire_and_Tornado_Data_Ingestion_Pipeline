@@ -4,7 +4,7 @@ This note contains information about our database schema.
 
 ---
 
-### **Data Tables**
+## **Data Tables**
 
 We process two datasets in this project.
 
@@ -16,7 +16,7 @@ For each dataset, we have four tables.
 
 ---
 
-### **General Data Table Information**
+## **General Data Table Information**
 
 The accepted tables are for accepted records.
 
@@ -26,7 +26,7 @@ The stage tables are for staging records, before merging into the final tables.
 
 ---
 
-### **Specific Data Table Information (accepted)**
+## **Specific Data Table Information (accepted)**
 
 The accepted stage table consists of:
 - all data fields
@@ -41,7 +41,7 @@ The accepted final table consists of:
 
 ---
 
-### **Specific Table Information (rejected)**
+## **Specific Table Information (rejected)**
 
 The rejected stage table consists of:
 - all data fields
@@ -58,7 +58,7 @@ The rejected final table consists of:
 
 ---
 
-### **Additional Tables (meta)**
+## **Additional Tables (meta)**
 
 We have two tables that are shared by all the datasets in our project.
 - main_process
@@ -72,13 +72,13 @@ These tables are used to track each main process we invoke, which sources/batche
 
 ---
 
-### **Honorable Mention**
+## **Honorable Mention**
 
 I'm not sure if "functional key" is a real term.
 
 ---
 
-### **Surrogate Key and Functional Key**
+## **Surrogate Key and Functional Key**
 
 For each dataset and respective set of tables, since there are no individual candidate keys:
 - Our primary key is a surrogate key, which is an auto-generated integer.
@@ -92,27 +92,10 @@ We use the stage table and then merge it into the final table so that Postgres w
 
 When we merge the records from the stage table into the final table, there are three scenarios:
 - the functional key is matched and the content hash is matched
+  - leave existing record alone / do nothing
 - the functional key is matched and the content hash is not matched
+  - update existing record
 - the functional key is not matched
-
----
-
-### **Functional Key Matches + Content Hash Matches**
-
-In this scenario, nothing will happens, so the record in the final table will stay the same.
-- no fields will be updated
-
----
-
-### **Functional Key Matches + Content Hash Does Not Match**
-
-In this scenario, the record from the stage table will be used to update the corresponding record in the final table
-- all fields will be updated, whether or not all of them are different
-
----
-
-### **Functional Key Does Not Match**
-
-In this scenario, the record from the stage table will be inserted into the final table.
+  - insert new record
 
 ---

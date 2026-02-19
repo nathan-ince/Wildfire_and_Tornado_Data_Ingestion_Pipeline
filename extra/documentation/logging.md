@@ -4,7 +4,7 @@ This note contains information about logging in our project.
 
 ---
 
-### **Configure Logging**
+## **Configure Logging**
 
 In constrast to a long-running application, where you would typically configure logging in one place near the entry point of the application...
 
@@ -14,7 +14,7 @@ With that in mind, we configure logging at the entry point of each script.
 
 ---
 
-### **Structured Logging**
+## **Structured Logging**
 
 We decided to go with structured logging.
 
