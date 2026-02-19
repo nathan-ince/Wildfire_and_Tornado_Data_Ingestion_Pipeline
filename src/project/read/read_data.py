@@ -40,7 +40,9 @@ def read_data_with_pandas(config: Config, source_index: int) -> DataFrame:
 
       case "json":
         logger.debug("matched source format", extra={"format": source.format})
-        data = pd.read_json(source.path, dtype_backend="pyarrow", dtype={mapping[0]: mapping[1].type for mapping in source.mapping.items()})
+        data = pd.read_json(source.path, 
+          dtype_backend="pyarrow", 
+          dtype={mapping[0]: mapping[1].type for mapping in source.mapping.items()})
         logger.info(SUCCESS_MESSAGE, extra=kwargs)
         return data
 

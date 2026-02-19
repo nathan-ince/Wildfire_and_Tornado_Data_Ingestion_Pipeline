@@ -1,4 +1,4 @@
-from .queries import tornado_counts_by_state, wildfire_counts_by_state, tornado_most_events_by_month, tornado_average_fatalities_by_magnitude, wildfire_counts_by_cause
-from .plots import plot_tornado_and_wildfire_per_state, plot_tornado_most_events_by_month, plot_tornado_average_fatalities_by_magnitude, plot_wildfire_counts_by_cause
+from .queries import tornado_counts_by_state, wildfire_counts_by_state, tornado_most_events_by_month, tornado_average_fatalities_by_magnitude, wildfire_counts_by_cause, wildfire_most_events_by_month
+from .plots import plot_tornado_most_events_by_month, plot_tornado_average_fatalities_by_magnitude, plot_wildfire_counts_by_cause, plot_tornado_and_wildfire_per_month
 
-__all__ = ["tornado_counts_by_state", "plot_tornado_most_events_by_month", "plot_tornado_average_fatalities_by_magnitude", "plot_wildfire_counts_by_cause", "wildfire_counts_by_state", "tornado_most_events_by_month", "tornado_average_fatalities_by_magnitude", "plot_tornado_and_wildfire_per_state", "wildfire_counts_by_cause"]
+__all__ = ["plot_tornado_and_wildfire_per_month", "wildfire_most_events_by_month", "tornado_counts_by_state", "plot_tornado_most_events_by_month", "plot_tornado_average_fatalities_by_magnitude", "plot_wildfire_counts_by_cause", "wildfire_counts_by_state", "tornado_most_events_by_month", "tornado_average_fatalities_by_magnitude", "wildfire_counts_by_cause"]

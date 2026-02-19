@@ -43,7 +43,7 @@ sources:
     format: csv
     options:
       delimiter: ","
-    mapping:
+    mapping: 
       yr:
         name: year
         type: int16[pyarrow]

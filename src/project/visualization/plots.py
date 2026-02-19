@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
-from project.visualization.queries import tornado_counts_by_state, wildfire_counts_by_state, tornado_most_events_by_month, tornado_average_fatalities_by_magnitude, wildfire_counts_by_cause
+import seaborn as sns
+from project.visualization.queries import tornado_counts_by_state, wildfire_counts_by_state, tornado_most_events_by_month, tornado_average_fatalities_by_magnitude, wildfire_counts_by_cause, wildfire_most_events_by_month
 import calendar
 
 
@@ -9,33 +10,59 @@ STATE_NAME_TO_ABBR = {
     "Texas": "TX",
 }
 
-def plot_tornado_and_wildfire_per_state(engine):
-    df_tornado = tornado_counts_by_state(engine)
-    df_wildfire = wildfire_counts_by_state(engine)
+MONTH_NAME_ABBR = {
+    
+}
 
-    df_wildfire["state"] = df_wildfire["state"].map(STATE_NAME_TO_ABBR)
-    df = df_tornado.merge(df_wildfire, on="state", how="inner")
 
-    states = df["state"].tolist()
 
-    plt.bar(states, df["tornado_count"], label="Tornadoes")
-    plt.bar(
-        states,
-        df["wildfire_count"],
-        bottom=df["tornado_count"],
-        label="Wildfires",
-    )
+def plot_tornado_and_wildfire_per_month(engine):
+    df_tornado = tornado_most_events_by_month(engine)
+    
 
-    plt.xlabel("State")
+    df_tornado["month_abbr"] = df_tornado["month"].apply(lambda m: calendar.month_abbr[int(m)])
+
+    sns.set_theme(style="darkgrid")
+    plt.figure(figsize=(12, 8))
+
+
+    sns.lineplot(data=df_tornado, x="month_abbr", y="tornado_count", marker="o", label="Tornadoes")
+
+
+
+    plt.xlabel("Month") 
     plt.ylabel("Number of Events") 
-    plt.title("Tornadoes vs Wildfires by State")
-
-    plt.grid(axis="y")           
-    plt.legend()
+    plt.title("Tornadoes vs Wildfires")
     plt.show()
 
 
+
 def plot_tornado_most_events_by_month(engine):
+    df = tornado_most_events_by_month(engine)
+    df["month_name"] = df["month"].apply(lambda change_month: calendar.month_name[int(change_month)])
+
+    plt.figure(figsize=(12, 8))
+
+    plt.plot(df["month_name"], df["tornado_count"], marker="o", color="darkgray")
+
+    plt.ylabel("Number of Tornado Events") 
+    plt.title("Tornado Events by Month")
+    plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def plot_tornado_and_wildfire_most_events_by_month(engine):
     df = tornado_most_events_by_month(engine)
     df["month_name"] = df["month"].apply(lambda change_month: calendar.month_name[int(change_month)])
 

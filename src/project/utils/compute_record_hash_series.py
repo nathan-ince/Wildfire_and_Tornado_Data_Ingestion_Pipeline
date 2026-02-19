@@ -12,7 +12,7 @@ def compute_record_hash_series_include(df: pd.DataFrame, included_fields: list[s
   df_subset = df_subset.sort_index(axis=1)
   df_string = df_subset.astype("string[pyarrow]")
   d1_string = df_string.aggregate("|".join, axis=1)
-  return d1_string.map(lambda x: hashlib.sha256(x.encode("utf-8")).hexdigest()) #
+  return d1_string.map(lambda x: hashlib.sha256(x.encode("utf-8")).hexdigest())
 
 def compute_record_hash_series_exclude(df: pd.DataFrame, excluded_fields: list[str] | None = None):
   if df.empty is True: return pd.Series([], dtype="string[pyarrow]")
