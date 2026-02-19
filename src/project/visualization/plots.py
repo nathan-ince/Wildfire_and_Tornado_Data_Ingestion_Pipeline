@@ -17,7 +17,7 @@ def plot_tornado_most_events_per_month_and_year(engine: Engine):
 
     plt.xlabel("Month") 
     plt.ylabel("Number of Events") 
-    plt.title("Tornadoes vs Wildfires")
+    plt.title("Tornado Occurrences per Month")
     plt.tight_layout()
     plt.show()
 
@@ -64,7 +64,7 @@ def plot_wildfire_counts_by_cause(engine: Engine):
 
     plt.xlabel("Wildfire Cause")
     plt.ylabel("Number of Wildfires") 
-    plt.title("Wildfire Counts by Cause")
+    plt.title("Wildfire Occurrences by Cause")
     plt.tight_layout()
     plt.show()
 
@@ -133,6 +133,6 @@ def plot_counts_by_month(engine: Engine):
 
     plt.xlabel("Month") 
     plt.ylabel("Ratio of Events per Month") 
-    plt.title("Tornadoes vs Wildfires")
+    plt.title("Tornado and Wildfire Occurrences")
     plt.tight_layout()
     plt.show()

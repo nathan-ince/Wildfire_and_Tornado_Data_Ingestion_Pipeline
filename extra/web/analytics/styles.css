@@ -1,0 +1,122 @@
+* {
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+body {
+  margin: 0;
+}
+
+#full-screen-container {
+  --full-screen-width: 100dvw;
+  --full-screen-height: 100dvh;
+  width: var(--full-screen-width);
+  height: var(--full-screen-height);
+  display: flex;
+  background-color: #242424;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+}
+
+#full-screen-container::-webkit-scrollbar { display: none; background: transparent; }
+#full-screen-container::-webkit-scrollbar-track { background: linear-gradient(rgb(24, 24, 24), rgb(8, 8, 8)); }
+#full-screen-container::-webkit-scrollbar-thumb { background: linear-gradient(rgb(24, 24, 24), gray, rgb(8, 8, 8)); }
+
+.full-screen-wrapper {
+  width: var(--full-screen-width);
+  height: max-content;
+  display: flex;
+  flex-direction: column;
+}
+
+.title-container {
+  --height: 128px;
+  --fontSize: calc(3/10 * var(--height));
+  width: 100%;
+  height: var(--height);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.title-container > .title {
+  font-size: var(--fontSize);
+  line-height: 1;
+  font-weight: 700;
+  color: #ccc;
+}
+
+.vbox {
+  --width: calc(0.5 * var(--full-screen-width));
+  --headerHeight: 64px;
+  --mainHeight: calc(0.7 * var(--full-screen-height));
+  --alignSelf: center;
+  --borderRadius: 12px;
+  --headerPaddingHorizontal: calc(1/2 * var(--headerHeight));
+  --headerBackgroundColor: #121212;
+  --headerJustifyContent: center;
+  --mainBackgroundColor: #181818;
+  --mainJustifyContent: center;
+  --mainAlignItems: center;
+  --height: calc(var(--headerHeight) + var(--mainHeight));
+  --headerFontsize: calc(1/2 * var(--headerHeight));
+  width: var(--width);
+  height: var(--height);
+  border-radius: var(--borderRadius);
+  align-self: var(--alignSelf);
+  margin-left: 64px;
+  margin-right: 64px;
+  scroll-snap-align: center;
+}
+
+.vbox > header {
+  width: var(--width);
+  height: var(--headerHeight);
+  border-top-left-radius: var(--borderRadius);
+  border-top-right-radius: var(--borderRadius);
+  background-color: var(--headerBackgroundColor);
+  display: flex;
+  justify-content: space-between;
+}
+
+.vbox > header > span {
+  max-width: var(--width);
+  height: var(--headerHeight);
+  font-size: calc(1/2 * var(--headerHeight));
+  line-height: var(--headerHeight);
+  color: #ccc;
+  font-weight: 700;
+  padding-left: var(--headerPaddingHorizontal);
+  padding-right: var(--headerPaddingHorizontal);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.vbox > main {
+  width: var(--width);
+  height: var(--mainHeight);
+  border-bottom-left-radius: var(--borderRadius);
+  border-bottom-right-radius: var(--borderRadius);
+  background-color: var(--mainBackgroundColor);
+  display: flex;
+  justify-content: var(--mainJustifyContent);
+  align-items: var(--mainAlignItems);
+}
+
+.vbox > main > img {
+  width: 90%;
+  height: 90%;
+  object-fit: contain;
+}
+
+.spacer {
+  width: 100%;
+  height: 64px;
+}
+
+.vbox-erd, .vbox-one, .vbox-two, .vbox-three, .vbox-four {
+  --width: calc(0.66 * var(--full-screen-width));
+  --mainHeight: calc(0.8 * var(--full-screen-height));
+}
