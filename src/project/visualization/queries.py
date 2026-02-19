@@ -33,9 +33,9 @@ def wildfire_counts_by_cause(engine: Engine) -> pd.DataFrame:
     return pd.read_sql(query, engine)
 
 def wildfire_count_by_month(engine: Engine) -> pd.DataFrame:
-    query = text("SELECT count(*) FROM wildfire_global_accepted_final GROUP BY month")
+    query = text("SELECT month, count(*) AS occurrences FROM wildfire_global_accepted_final GROUP BY month;")
     return pd.read_sql_query(query, engine)
 
 def tornado_count_by_month(engine: Engine) -> pd.DataFrame:
-    query = text("SELECT count(*) FROM tornado_usa_accepted_final GROUP BY month")
+    query = text("SELECT month, count(*) AS occurrences FROM tornado_usa_accepted_final GROUP BY month;")
     return pd.read_sql_query(query, engine)

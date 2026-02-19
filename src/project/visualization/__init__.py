@@ -1,4 +1,4 @@
 
-from .plots import plot_tornado_most_events_per_month_and_year, plot_tornado_average_fatalities_by_magnitude, plot_wildfire_counts_by_cause
+from .plots import plot_tornado_most_events_per_month_and_year, plot_tornado_average_fatalities_by_magnitude, plot_wildfire_counts_by_cause, plot_counts_by_month
 
-__all__ = ["plot_tornado_most_events_per_month_and_year", "plot_tornado_average_fatalities_by_magnitude", "plot_wildfire_counts_by_cause"]
+__all__ = ["plot_tornado_most_events_per_month_and_year", "plot_tornado_average_fatalities_by_magnitude", "plot_wildfire_counts_by_cause", "plot_counts_by_month"]
