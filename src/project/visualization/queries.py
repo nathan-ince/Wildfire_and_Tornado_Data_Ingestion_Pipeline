@@ -3,7 +3,6 @@ from sqlalchemy.engine import Engine
 import pandas as pd
 
 
-
 def tornado_most_events_by_month(engine: Engine) -> pd.DataFrame:
     query = text("""
         SELECT year, month, COUNT(*) AS tornado_count
