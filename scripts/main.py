@@ -11,7 +11,7 @@ from project.core import configure_logging
 from project.core.db import get_engine
 from project.pipelines.tornado_usa.pipeline import start as start_tornado_usa
 from project.pipelines.wildfire_global.pipeline import start as start_wildfire_global
-from project.visualization.plots import plot_tornado_most_events_per_month_and_year, plot_tornado_average_fatalities_by_magnitude, plot_wildfire_counts_by_cause
+from project.visualization.plots import plot_tornado_most_events_per_month_and_year, plot_tornado_average_fatalities_by_magnitude, plot_wildfire_counts_by_cause, plot_wildfires_most_events_per_month_and_year
 
 if __name__ == "__main__":
     try:
@@ -28,6 +28,7 @@ if __name__ == "__main__":
     #start_wildfire_global()
 
     engine = get_engine()
+    plot_wildfires_most_events_per_month_and_year(engine)
     plot_tornado_most_events_per_month_and_year(engine)
     plot_tornado_average_fatalities_by_magnitude(engine)
     plot_wildfire_counts_by_cause(engine)

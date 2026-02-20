@@ -1,7 +1,13 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
-from project.visualization.queries import tornado_most_events_by_month, tornado_average_fatalities_by_magnitude, wildfire_counts_by_cause
+import pandas as pd
+from project.visualization.queries import tornado_most_events_by_month, tornado_average_fatalities_by_magnitude, wildfire_counts_by_cause, wildfire_most_events_by_month
 import calendar
+
+month_order = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+]
 
 
 def plot_tornado_most_events_per_month_and_year(engine):
@@ -16,7 +22,23 @@ def plot_tornado_most_events_per_month_and_year(engine):
 
     plt.xlabel("Month") 
     plt.ylabel("Number of Events") 
-    plt.title("Tornadoes vs Wildfires")
+    plt.title("Number of Tornadoes by Month")
+    plt.tight_layout()
+    plt.show()
+
+
+def plot_wildfires_most_events_per_month_and_year(engine):
+    df_wildfire = wildfire_most_events_by_month(engine)
+    df_wildfire["month"] = pd.Categorical(df_wildfire["month"], categories=month_order, ordered=True)
+
+    sns.set_theme(style="darkgrid")
+    plt.figure(figsize=(12, 8))
+
+    sns.lineplot(data=df_wildfire, x="month", y="wildfire_count", marker="o", label="Wildfire")
+
+    plt.xlabel("Month") 
+    plt.ylabel("Number of Events") 
+    plt.title("Wildfires")
     plt.tight_layout()
     plt.show()
 

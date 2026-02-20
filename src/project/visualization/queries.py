@@ -13,6 +13,15 @@ def tornado_most_events_by_month(engine: Engine) -> pd.DataFrame:
     return pd.read_sql(query, engine)
 
 
+def wildfire_most_events_by_month(engine: Engine) -> pd.DataFrame:
+    query = text("""
+        SELECT month, COUNT(*) AS wildfire_count
+        FROM wildfire_global_accepted_final
+        GROUP BY month
+    """)
+    return pd.read_sql(query, engine)
+
+
 def tornado_average_fatalities_by_magnitude(engine: Engine) -> pd.DataFrame:
     query = text("""
         SELECT magnitude, AVG(fatality_count) AS average_fatalities
