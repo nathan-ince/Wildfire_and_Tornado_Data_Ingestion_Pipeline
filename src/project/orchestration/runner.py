@@ -93,9 +93,8 @@ def run_main_process(config_path: str, transform_data: TransformFunction) -> Non
       df_raw = read_data_with_pandas(config, source_index)
       df_accepted, df_rejected = transform_data(config, source_index, df_raw) # where everything unique to each pipeline happens
       df_accepted = df_accepted.copy()
-      df_accepted["batch_process_id"] = batch_process_id
+
       df_rejected = df_rejected.copy()
-      df_rejected["batch_process_id"] = batch_process_id
       load_into_accepted_stage(config.target.tables.accepted_stage, df_accepted)
       load_into_rejected_stage(config.target.tables.rejected_stage, df_rejected)
       merge_stage_into_final(config.target.merge_accepted, stage_table_name=config.target.tables.accepted_stage, final_table_name=config.target.tables.accepted_final)
